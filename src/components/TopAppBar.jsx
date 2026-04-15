@@ -48,20 +48,20 @@ export default function TopAppBar({ isDark, toggleTheme }) {
         </Link>
 
         {/* Theme Toggle Button - Solid style */}
-        <button 
-          onClick={toggleTheme}
-          className={`w-10 h-10 rounded-md flex items-center justify-center transition-all duration-500 hover:scale-105 active:scale-95 border ${isDark ? 'bg-white/5 border-white/10 text-primary' : 'bg-black/5 border-black/10 text-olive-700'}`}
-          title="Toggle Theme"
-        >
-          <div className="relative w-5 h-5 overflow-hidden">
-            <span className={`material-symbols-outlined text-[20px] absolute inset-0 transition-all duration-700 transform ${isDark ? 'translate-y-0 opacity-100 rotate-0' : '-translate-y-full opacity-0 -rotate-90'}`}>
-              light_mode
-            </span>
-            <span className={`material-symbols-outlined text-[20px] absolute inset-0 transition-all duration-700 transform ${!isDark ? 'translate-y-0 opacity-100 rotate-0' : 'translate-y-full opacity-0 rotate-90'}`}>
-              dark_mode
-            </span>
-          </div>
-        </button>
+         <button 
+           onClick={toggleTheme}
+           className={`w-10 h-10 rounded-md flex items-center justify-center transition-all duration-500 hover:scale-105 active:scale-95 border ${isDark ? 'bg-white/5 border-white/10 text-primary' : 'bg-black/5 border-black/10 text-primary'}`}
+           title="Toggle Theme"
+         >
+           <div className="relative w-5 h-5">
+             <span className={`material-symbols-outlined text-[20px] absolute inset-0 flex items-center justify-center transition-all duration-700 transform ${isDark ? 'rotate-0 opacity-100 scale-100' : 'rotate-90 opacity-0 scale-50'}`}>
+               light_mode
+             </span>
+             <span className={`material-symbols-outlined text-[20px] absolute inset-0 flex items-center justify-center transition-all duration-700 transform ${!isDark ? 'rotate-0 opacity-100 scale-100' : '-rotate-90 opacity-0 scale-50'}`}>
+               dark_mode
+             </span>
+           </div>
+         </button>
 
         <button className={`w-10 h-10 rounded-md flex items-center justify-center relative transition-all duration-500 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
           <span className="material-symbols-outlined text-[20px]">shopping_cart</span>

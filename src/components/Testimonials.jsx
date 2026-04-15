@@ -86,8 +86,8 @@ export default function TestimonialSlider({ isDark }) {
               : 'bg-white border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)] pt-32 p-12 md:p-24'
           }`}>
              
-             {/* Rating Badge - Google Sync Ready */}
-             <div className="absolute top-0 right-0 flex items-center gap-1 bg-zinc-950 px-6 py-4 shadow-xl z-20 border-b-2 border-l-2 border-primary">
+             {/* Rating Stars - Transparent/No Background */}
+             <div className="absolute top-8 right-8 flex items-center gap-1 z-20">
                 <div className="flex gap-1">
                    {[...Array(5)].map((_, i) => (
                       <span 
@@ -101,7 +101,7 @@ export default function TestimonialSlider({ isDark }) {
                       </span>
                    ))}
                 </div>
-                <span className="font-headline text-[10px] font-black tracking-widest text-white ml-2 border-l border-zinc-800 pl-4">
+                <span className={`font-headline text-[10px] font-black tracking-widest ml-2 border-l pl-4 ${isDark ? 'text-zinc-400 border-zinc-800' : 'text-zinc-600 border-zinc-200'}`}>
                    {testimonials[currentIndex].rating}.0
                 </span>
              </div>
