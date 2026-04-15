@@ -18,75 +18,43 @@
   --color-on-primary: #253600;
   --color-primary-container: #d4eca2;
   --color-on-primary-container: #4a5d23;
-  --color-primary-fixed: #d4eca2;
-  --color-primary-fixed-dim: #b8cf88;
-  --color-on-primary-fixed: #141f00;
-  --color-on-primary-fixed-variant: #3b4d14;
 
   --color-secondary: #c8c8b0;
   --color-on-secondary: #303221;
-  --color-secondary-container: #e4e4cc;
-  --color-on-secondary-container: #494a38;
-  --color-secondary-fixed: #e4e4cc;
-  --color-secondary-fixed-dim: #c8c8b0;
-  --color-on-secondary-fixed: #1b1d0e;
-  --color-on-secondary-fixed-variant: #474836;
-
-  --color-tertiary: #edb5e7;
-  --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #744772;
-  --color-on-tertiary-container: #492149;
-  --color-tertiary-fixed: #ffd6f8;
-  --color-tertiary-fixed-dim: #edb5e7;
-  --color-on-tertiary-fixed: #310a33;
-  --color-on-tertiary-fixed-variant: #623761;
-
-  --color-error: #ffb4ab;
-  --color-on-error: #ffffff;
-  --color-error-container: #93000a;
-  --color-on-error-container: #ffdad6;
 
   --color-surface: #fdfdfb;
   --color-on-surface: #1c1b1b;
-  --color-surface-variant: #e1e4d5;
-  --color-on-surface-variant: #c6c8b8;
-  --color-surface-dim: #e5e5e1;
-  --color-surface-bright: #ffffff;
-  --color-surface-container: #f1f1ee;
-  --color-surface-container-low: #f5f5f2;
-  --color-surface-container-high: #ebebe8;
-  --color-surface-container-highest: #e5e5e1;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-tint: #b8cf88;
-
-  --color-outline: #8f9284;
-  --color-outline-variant: #c6c8b8;
   --color-background: #fdfdfb;
-  --color-on-background: #1c1b1b;
-  --color-inverse-surface: #313030;
-  --color-inverse-on-surface: #313030;
-  --color-inverse-primary: #52652a;
 
   /* Typography */
   --font-headline: "Space Grotesk", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-label: "Space Grotesk", sans-serif;
 
-  /* Border Radius */
-  --radius-lg: 0.5rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  /* Border Radius - making them slightly sharper for a more technical look */
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 1rem;
 }
 
 /* Base layer */
 @layer base {
   body {
     font-family: "Manrope", sans-serif;
-    background-color: #fdfdfb;
-    color: #1c1b1b;
-    min-height: max(884px, 100dvh);
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Smoothly transition all interactive states */
+  div, section, header, main, footer, p, h1, h2, h3, h4, span, a, button, input, select {
+    transition: background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 }
 
@@ -96,16 +64,19 @@
     font-family: "Space Grotesk", sans-serif;
   }
 
-  .glass-card {
-    background: rgba(225, 228, 213, 0.4);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+  /* REPLACING GLASSMORPHISM WITH HIGH-CONTRAST SOLID BLOCKS */
+  .solid-panel {
+    border-width: 1px;
+    box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.1);
   }
 
-  .glass-panel {
-    background: rgba(253, 253, 251, 0.7);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+  .dark .solid-panel {
+    box-shadow: 4px 4px 0px 0px rgba(184,207,136,0.05);
+  }
+
+  .technical-border {
+    border: 1px solid currentColor;
+    border-radius: 0.5rem;
   }
 
   .material-symbols-outlined {
