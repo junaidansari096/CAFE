@@ -11,19 +11,35 @@ const testimonials = [
   },
   {
     id: 2,
-    quote: "ZERO LATENCY IN SERVICE. THE DIGITAL BRUTALIST INTERFACE IS NOT JUST AN AESTHETIC CHOICE—IT IS A FUNCTIONAL ADVANTAGE FOR HIGH-LOAD ENVIRONMENTS.",
-    author: "SARAH CHEN",
-    role: "SYSTEMS ARCHITECT",
+    quote: "INITIAL SYNC WAS SUCCESSFUL, BUT ATMOSPHERIC VIBRATIONS IN THE DUO STATION WERE SLIGHTLY HIGHER THAN PARAMETERS ALLOW. EXTRACTION QUALITY REMAINS HIGH.",
+    author: "AGENT KELVIN",
+    role: "FIELD RESEARCHER",
     node: "STATION 12",
-    rating: 5
+    rating: 4
   },
   {
     id: 3,
-    quote: "FINALLY, A SPACE THAT TREATS COFFEE WITH THE SAME TECHNICAL RIGOR AS A KERNEL INITIALIZATION. THE ATMOSPHERIC CONTROLS ARE UNMATCHED.",
+    quote: "RESERVING THE COLLECTIVE WAS EFFICIENT, BUT THE THERMAL DRIFT IN THE SECONDARY RADIATOR WAS NOTED. SYSTEM REBOOT RESOLVED THE LATENCY.",
     author: "MARCUS REED",
     role: "BIO-HACKER",
     node: "NODE ALPHA",
-    rating: 4
+    rating: 2
+  },
+  {
+    id: 4,
+    quote: "TOTAL ARCHITECTURAL PRECISION. THE BREW LAB IS THE ONLY SPACE WHERE I CAN MAINTAIN FLOW STATE WHILE CONSUMING 9.2 BAR EXTRACTIONS.",
+    author: "SARAH CHEN",
+    role: "SYSTEMS ARCHITECT",
+    node: "HUB 01",
+    rating: 5
+  },
+  {
+    id: 5,
+    quote: "THE NITRO OAK PROTOCOL IS THE MOST ADVANCED FLAVOR PROFILE I HAVE EVER DEPLOYED. REQUESTING UNLIMITED ACCESS TO THE BETA-BREW QUEUE.",
+    author: "LT. MILLER",
+    role: "DATA ANALYST",
+    node: "STATION 09",
+    rating: 5
   }
 ];
 
@@ -66,25 +82,28 @@ export default function TestimonialSlider({ isDark }) {
           {/* Main Card */}
           <div className={`relative border-4 transition-all duration-700 p-12 md:p-24 overflow-hidden ${
             isDark 
-              ? 'bg-[#121414] border-zinc-900 shadow-[20px_20px_0px_0px_rgba(30,30,30,0.5)]' 
-              : 'bg-white border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)]'
+              ? 'bg-[#121414] border-zinc-900 shadow-[20px_20px_0px_0px_rgba(30,30,30,0.5)] pt-32 p-12 md:p-24' 
+              : 'bg-white border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)] pt-32 p-12 md:p-24'
           }`}>
              
              {/* Rating Badge - Google Sync Ready */}
-             <div className="absolute top-0 right-0 flex items-center gap-1 bg-primary px-6 py-4 shadow-xl z-20">
+             <div className="absolute top-0 right-0 flex items-center gap-1 bg-zinc-950 px-6 py-4 shadow-xl z-20 border-b-2 border-l-2 border-primary">
                 <div className="flex gap-1">
                    {[...Array(5)].map((_, i) => (
                       <span 
                          key={i} 
                          className={`material-symbols-outlined text-sm font-bold ${
-                            i < testimonials[currentIndex].rating ? 'text-zinc-950' : 'text-zinc-950/20'
+                            i < testimonials[currentIndex].rating ? 'text-yellow-400' : 'text-zinc-600'
                          }`}
+                         style={{ fontVariationSettings: i < testimonials[currentIndex].rating ? "'FILL' 1" : "'FILL' 0" }}
                       >
                          star
                       </span>
                    ))}
                 </div>
-                <span className="font-headline text-[10px] font-black tracking-widest text-zinc-950 ml-2 border-l border-zinc-950/20 pl-4">5.0</span>
+                <span className="font-headline text-[10px] font-black tracking-widest text-white ml-2 border-l border-zinc-800 pl-4">
+                   {testimonials[currentIndex].rating}.0
+                </span>
              </div>
 
              {/* Decorative Elements */}
