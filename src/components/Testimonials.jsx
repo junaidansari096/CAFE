@@ -6,21 +6,24 @@ const testimonials = [
     quote: "THE PRECISION GAINS IN EXTRACTION CONSISTENCY SINCE SYNCHRONIZING WITH FUTURE BREW ARE QUANTIFIABLE. A SUPERIOR SYSTEM FOR THE MODERN BREW SCIENTIST.",
     author: "DR. ELIAS VANCE",
     role: "CYBERNETIC BARISTA",
-    node: "STATION 04"
+    node: "STATION 04",
+    rating: 5
   },
   {
     id: 2,
     quote: "ZERO LATENCY IN SERVICE. THE DIGITAL BRUTALIST INTERFACE IS NOT JUST AN AESTHETIC CHOICE—IT IS A FUNCTIONAL ADVANTAGE FOR HIGH-LOAD ENVIRONMENTS.",
     author: "SARAH CHEN",
     role: "SYSTEMS ARCHITECT",
-    node: "STATION 12"
+    node: "STATION 12",
+    rating: 5
   },
   {
     id: 3,
     quote: "FINALLY, A SPACE THAT TREATS COFFEE WITH THE SAME TECHNICAL RIGOR AS A KERNEL INITIALIZATION. THE ATMOSPHERIC CONTROLS ARE UNMATCHED.",
     author: "MARCUS REED",
     role: "BIO-HACKER",
-    node: "NODE ALPHA"
+    node: "NODE ALPHA",
+    rating: 4
   }
 ];
 
@@ -67,8 +70,25 @@ export default function TestimonialSlider({ isDark }) {
               : 'bg-white border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)]'
           }`}>
              
+             {/* Rating Badge - Google Sync Ready */}
+             <div className="absolute top-0 right-0 flex items-center gap-1 bg-primary px-6 py-4 shadow-xl z-20">
+                <div className="flex gap-1">
+                   {[...Array(5)].map((_, i) => (
+                      <span 
+                         key={i} 
+                         className={`material-symbols-outlined text-sm font-bold ${
+                            i < testimonials[currentIndex].rating ? 'text-zinc-950' : 'text-zinc-950/20'
+                         }`}
+                      >
+                         star
+                      </span>
+                   ))}
+                </div>
+                <span className="font-headline text-[10px] font-black tracking-widest text-zinc-950 ml-2 border-l border-zinc-950/20 pl-4">5.0</span>
+             </div>
+
              {/* Decorative Elements */}
-             <div className="absolute top-0 right-0 p-4 opacity-10">
+             <div className="absolute top-10 right-10 p-4 opacity-5">
                 <span className="font-headline text-9xl font-black italic">"</span>
              </div>
 
