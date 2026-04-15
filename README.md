@@ -1,16 +1,75 @@
-# React + Vite
+# ☕ FUTURE BREW // THE EXTRACTION PROTOCOL
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Future Brew Banner](https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop)
 
-Currently, two official plugins are available:
+## ⚡ SYSTEM OVERVIEW
+**Future Brew** is a high-performance web application designed for the modern coffee laboratory. Moving away from the soft aesthetics of the past, this platform utilizes a **Digital Brutalist** design system to provide a grounded, high-contrast, and technically precise user experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🛠 THE TECH STACK
+Built with a focus on core performance and visual excellence:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Core Logic**: [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/) for ultra-fast HMR and build times.
+*   **Design System**: [Tailwind CSS v4](https://tailwindcss.com/) using a custom `@theme` architecture.
+*   **Navigation**: [React Router 6](https://reactrouter.com/) for fluid, single-page transitions.
+*   **Iconography**: [Google Material Symbols](https://fonts.google.com/icons) for a sharp, technical look.
+*   **Typography**: [Inter](https://fonts.google.com/specimen/Inter) and high-impact headline fonts.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 CORE FEATURES
+
+### 1. Digital Brutalist Aesthetic
+*   **Zero-Transparency Policy**: A complete departure from glassmorphism. Every element is grounded with solid fills and sharp 2px-4px borders.
+*   **Tactile Feedback**: 2D offset shadows and reactive scaling transitions make the UI feel physical and mechanical.
+*   **Dynamic Theme Engine**: A high-fidelity toggle between **Deep Charcoal (Dark)** and **Industrial Off-White (Light)** with a synchronized 700ms transition.
+
+### 2. Interactive Reservation Module
+*   **Node Selection**: Choose your coordinates within the cafe (Solo Alcove, Duo Station, or The Collective).
+*   **Personnel Sync**: Real-time guest count adjustment with technical instrumentation feedback.
+*   **Protocol Locking**: A guided booking workflow that simulates a terminal-style initialization.
+
+### 3. Rewards & Telemetry
+*   **XP Tracking**: Visualized through high-contrast progress rings and solid data blocks.
+*   **User Profiles**: Technical identity dashboards displaying membership status and extraction history.
+
+### 4. Authentication Suite
+*   Fully designed **Login** and **Signup** flows that maintain the industrial visual language with precision-engineered input fields.
+
+---
+
+## 📅 THE ROADMAP (SYSTEM EVOLUTION)
+
+- [ ] **Backend Integration**: Connecting the reservation protocol to a real-time database (Firebase/Supabase).
+- [ ] **Extraction Analytics**: Real-time coffee brewing metrics integrated into the user profile.
+- [ ] **Mobile App Port**: Utilizing the responsive design foundations for a dedicated mobile experience.
+- [ ] **NFC Protocol**: Tap-to-check-in features for frequent "Personnel" units.
+
+---
+
+## 🛠 INSTALLATION & DEPLOYMENT
+
+### Local Development
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/junaidansari096/CAFE.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Boot the system:
+   ```bash
+   npm run dev
+   ```
+
+### Deployment
+This project is optimized for **Vercel** and **Netlify**. Simply connect your GitHub repository for automated CI/CD deployments.
+
+---
+
+## 📝 LICENSE
+System protected under the **MIT License**.
+
+> // "Precision in every extraction. High-contrast life." - Future Brew Team
