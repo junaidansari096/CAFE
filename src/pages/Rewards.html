@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#e5b4ff",
+                        "tertiary": "#764a90",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c8c8b4",
+                        "secondary-fixed": "#e2e6b4",
+                        "on-background": "#1a1c19",
+                        "on-surface-variant": "#474839",
+                        "on-primary-fixed-variant": "#444b00",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-container": "#61663d",
+                        "on-surface": "#1a1c19",
+                        "inverse-surface": "#2f312e",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eeeee9",
+                        "primary-fixed-dim": "#c3ce67",
+                        "inverse-on-surface": "#f1f1ec",
+                        "on-primary-container": "#feffdc",
+                        "on-tertiary-fixed": "#2f014a",
+                        "on-secondary-fixed": "#1a1e00",
+                        "secondary": "#5d6139",
+                        "on-tertiary-fixed-variant": "#5f3479",
+                        "surface": "#fafaf5",
+                        "on-primary-fixed": "#1a1e00",
+                        "outline": "#787867",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#5b6401",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f4f4ef",
+                        "secondary-container": "#e0e4b1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e3",
+                        "secondary-fixed-dim": "#c6ca9a",
+                        "tertiary-container": "#9062ab",
+                        "surface-variant": "#e3e3de",
+                        "primary-fixed": "#dfea80",
+                        "inverse-primary": "#c3ce67",
+                        "surface-dim": "#dadad5",
+                        "tertiary-fixed": "#f4d9ff",
+                        "on-secondary-fixed-variant": "#454924",
+                        "surface-bright": "#fafaf5",
+                        "primary-container": "#717a1c",
+                        "surface-container-highest": "#e3e3de",
+                        "background": "#fafaf5",
+                        "on-primary": "#ffffff",
+                        "primary": "#586100"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #121414; /* Deep Charcoal from Design System Don'ts */
+            color: #fafaf5; /* Cream Text */
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(18, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .progress-glow {
+            filter: drop-shadow(0 0 12px rgba(132, 142, 47, 0.4));
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-32">
+<!-- Header (TopAppBar) -->
+<header class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a sophisticated person with clean lighting, high-end editorial photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhn-_HZb1z_kbzDXAdDjkl42RNiT6t2sOz-Pk7MZcYzi9WBSnu4ENJSgGqik0LEsWswz1xoNN1A-fzM8-NbyhrAwru1SvBBw2iSQl3YjC9r-6iGUw06HWFXpcSyhoSOdMUdyHU6FISwNQqzhYkWS-GUwOFtGOtVf2mWQH5EhKe9itsLBaBDYETV7R_wewpm_aZAL0wjkz4pfdZP8czu-zkQpGqXINC9C3JHo_Nv2HucMj8EegkhH7-wijbTucAEwhWk7NiuDJqOKU"/>
+</div>
+<h1 class="text-xl font-bold text-[#fafaf5] font-['Space_Grotesk'] tracking-tight">Loyalty Rewards</h1>
+<button class="material-symbols-outlined text-[#848E2F] hover:opacity-80 transition-opacity">settings</button>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-12">
+<!-- Points Progress Section -->
+<section class="flex flex-col items-center justify-center space-y-6">
+<div class="relative flex items-center justify-center w-64 h-64">
+<!-- SVG Progress Ring -->
+<svg class="w-full h-full transform -rotate-90 progress-glow">
+<circle class="text-surface-container-highest/10" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="691" stroke-dashoffset="172" stroke-width="8"></circle>
+</svg>
+<!-- Central Text -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-5xl font-bold font-headline tracking-tighter text-[#fafaf5]">2,450</span>
+<span class="text-[10px] tracking-[0.2em] font-bold text-outline-variant uppercase">Total XP</span>
+</div>
+</div>
+<!-- Current Tier Status -->
+<div class="inline-flex items-center px-6 py-2 rounded-full bg-primary-container/20 border border-primary/30">
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm mr-2" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="text-xs font-extrabold tracking-widest text-primary-fixed-dim font-label uppercase">Elite Alchemist</span>
+</div>
+</section>
+<!-- Unlockable Rewards (Horizontal Floating Tiles) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="text-sm font-bold tracking-widest text-outline-variant uppercase">Reward Tiers</h3>
+<span class="text-[10px] text-primary">View All</span>
+</div>
+<div class="flex overflow-x-auto gap-4 hide-scrollbar pb-4 -mx-6 px-6">
+<!-- Tier 1 -->
+<div class="min-w-[180px] p-5 glass-panel rounded-lg border border-white/5 flex flex-col items-start space-y-4 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="coffee_bean">coffee</span>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-[#fafaf5]">Molecular Enthusiast</p>
+<p class="text-[10px] text-outline-variant">3,000 XP REQUIRED</p>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[81%]"></div>
+</div>
+</div>
+<!-- Tier 2 -->
+<div class="min-w-[180px] p-5 glass-panel rounded-lg border border-white/5 flex flex-col items-start space-y-4 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="science">science</span>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-[#fafaf5]">Synthesis Master</p>
+<p class="text-[10px] text-outline-variant">5,000 XP REQUIRED</p>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[49%]"></div>
+</div>
+</div>
+<!-- Tier 3 -->
+<div class="min-w-[180px] p-5 glass-panel rounded-lg border border-white/5 flex flex-col items-start space-y-4 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="star">star</span>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-[#fafaf5]">Caffeine Deity</p>
+<p class="text-[10px] text-outline-variant">10,000 XP REQUIRED</p>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[24%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity -->
+<section class="space-y-6">
+<h3 class="text-sm font-bold tracking-widest text-outline-variant uppercase">Recent Transmissions</h3>
+<div class="space-y-1">
+<!-- Activity Item 1 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg border border-white/5 hover:bg-white/5 transition-colors">
+<div class="flex items-center space-x-4">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<div class="space-y-0.5">
+<p class="text-xs font-medium text-[#fafaf5]">Quantum Latte Purchase</p>
+<p class="text-[10px] text-outline-variant">08:42 AM · NEW YORK HUB</p>
+</div>
+</div>
+<span class="text-xs font-bold font-headline text-primary">+50 XP</span>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg border border-white/5 hover:bg-white/5 transition-colors">
+<div class="flex items-center space-x-4">
+<div class="w-2 h-2 rounded-full bg-outline-variant/30"></div>
+<div class="space-y-0.5">
+<p class="text-xs font-medium text-[#fafaf5]">Daily Synthesis Bonus</p>
+<p class="text-[10px] text-outline-variant">YESTERDAY · SYSTEM</p>
+</div>
+</div>
+<span class="text-xs font-bold font-headline text-primary">+15 XP</span>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg border border-white/5 hover:bg-white/5 transition-colors">
+<div class="flex items-center space-x-4">
+<div class="w-2 h-2 rounded-full bg-outline-variant/30"></div>
+<div class="space-y-0.5">
+<p class="text-xs font-medium text-[#fafaf5]">Sustainable Cup Credit</p>
+<p class="text-[10px] text-outline-variant">OCT 24 · BERLIN HUB</p>
+</div>
+</div>
+<span class="text-xs font-bold font-headline text-primary">+10 XP</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Navigation (BottomNavBar) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#121414]/90 backdrop-blur-md z-50 border-t border-[#c8c8b4]/15 shadow-[0_-4px_24px_rgba(132,142,47,0.1)]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 py-1 px-3 hover:text-[#fafaf5] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">Home</span>
+</a>
+<!-- Rewards (Active) -->
+<a class="flex flex-col items-center justify-center text-[#848E2F] bg-[#848E2F]/10 rounded-lg py-1 px-3 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">Rewards</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 py-1 px-3 hover:text-[#fafaf5] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="local_cafe">local_cafe</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">Orders</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 py-1 px-3 hover:text-[#fafaf5] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  /* Olive palette */
+  --color-olive-50: #f6f7f2;
+  --color-olive-100: #ecefe5;
+  --color-olive-200: #d4eca2;
+  --color-olive-300: #b8cf88;
+  --color-olive-400: #9db46e;
+  --color-olive-500: #819954;
+  --color-olive-600: #657e3c;
+  --color-olive-700: #4a5d23;
+  --color-olive-800: #3b4d14;
+  --color-olive-900: #2c3b0f;
+
+  /* Material Design 3 semantic tokens */
+  --color-primary: #b8cf88;
+  --color-on-primary: #253600;
+  --color-primary-container: #d4eca2;
+  --color-on-primary-container: #4a5d23;
+  --color-primary-fixed: #d4eca2;
+  --color-primary-fixed-dim: #b8cf88;
+  --color-on-primary-fixed: #141f00;
+  --color-on-primary-fixed-variant: #3b4d14;
+
+  --color-secondary: #c8c8b0;
+  --color-on-secondary: #303221;
+  --color-secondary-container: #e4e4cc;
+  --color-on-secondary-container: #494a38;
+  --color-secondary-fixed: #e4e4cc;
+  --color-secondary-fixed-dim: #c8c8b0;
+  --color-on-secondary-fixed: #1b1d0e;
+  --color-on-secondary-fixed-variant: #474836;
+
+  --color-tertiary: #edb5e7;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #744772;
+  --color-on-tertiary-container: #492149;
+  --color-tertiary-fixed: #ffd6f8;
+  --color-tertiary-fixed-dim: #edb5e7;
+  --color-on-tertiary-fixed: #310a33;
+  --color-on-tertiary-fixed-variant: #623761;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #ffffff;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-surface: #fdfdfb;
+  --color-on-surface: #1c1b1b;
+  --color-surface-variant: #e1e4d5;
+  --color-on-surface-variant: #c6c8b8;
+  --color-surface-dim: #e5e5e1;
+  --color-surface-bright: #ffffff;
+  --color-surface-container: #f1f1ee;
+  --color-surface-container-low: #f5f5f2;
+  --color-surface-container-high: #ebebe8;
+  --color-surface-container-highest: #e5e5e1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-tint: #b8cf88;
+
+  --color-outline: #8f9284;
+  --color-outline-variant: #c6c8b8;
+  --color-background: #fdfdfb;
+  --color-on-background: #1c1b1b;
+  --color-inverse-surface: #313030;
+  --color-inverse-on-surface: #313030;
+  --color-inverse-primary: #52652a;
+
+  /* Typography */
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+
+  /* Border Radius */
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* Base layer */
+@layer base {
+  body {
+    font-family: "Manrope", sans-serif;
+    background-color: #fdfdfb;
+    color: #1c1b1b;
+    min-height: max(884px, 100dvh);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  .font-headline {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  .glass-card {
+    background: rgba(225, 228, 213, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .glass-panel {
+    background: rgba(253, 253, 251, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Future Brew | Profile Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#e5b4ff",
+                        "on-secondary-fixed-variant": "#454924",
+                        "on-secondary-container": "#61663d",
+                        "primary": "#586100",
+                        "on-background": "#1a1c19",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#1a1e00",
+                        "on-tertiary-fixed-variant": "#5f3479",
+                        "inverse-primary": "#c3ce67",
+                        "on-tertiary-fixed": "#2f014a",
+                        "background": "#fafaf5",
+                        "tertiary": "#764a90",
+                        "surface-container-low": "#f4f4ef",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e3e3de",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#c3ce67",
+                        "inverse-on-surface": "#f1f1ec",
+                        "secondary-fixed-dim": "#c6ca9a",
+                        "secondary-container": "#e0e4b1",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1a1c19",
+                        "outline": "#787867",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed": "#f4d9ff",
+                        "secondary-fixed": "#e2e6b4",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e3e3de",
+                        "surface-container": "#eeeee9",
+                        "inverse-surface": "#2f312e",
+                        "primary-fixed": "#dfea80",
+                        "surface-bright": "#fafaf5",
+                        "secondary": "#5d6139",
+                        "outline-variant": "#c8c8b4",
+                        "on-primary-fixed": "#1a1e00",
+                        "surface-dim": "#dadad5",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#9062ab",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e3",
+                        "surface-tint": "#5b6401",
+                        "on-primary-container": "#feffdc",
+                        "surface": "#fafaf5",
+                        "on-surface-variant": "#474839",
+                        "on-primary-fixed-variant": "#444b00",
+                        "primary-container": "#717a1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #121414; /* Forced Dark Background per requirements */
+            color: #fafaf5;
+        }
+        .glass-card {
+            background: rgba(26, 28, 25, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .glow-accent {
+            box-shadow: 0 0 20px rgba(88, 97, 0, 0.15);
+        }
+        .brew-status-pulse {
+            animation: pulse 3s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#121414]/80 backdrop-blur-xl shadow-[0_64px_64px_-12px_rgba(26,28,25,0.05)]">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity duration-300 text-[#848E2F]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2">
+<h1 class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-xl text-[#848E2F]">FUTURE BREW</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden ring-2 ring-[#848E2F]/20">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="portrait of a professional man with short hair and a focused expression in soft moody studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHn7ULZ50i2lAttlHBvWGqzMgXXtGlA6Bx35Q1vNnkdVsfrFtW7ScnW3DB7K9fp9TofKEjHBlcxuybqtRLGilIb99r5CoQ7jAAwoXU7l6p7FhXq0OgIYgNgZiTG7VMPN_yyU4YnQc4R4SRrnMIjIOj7zwuswG9QlJAxb359epGp4QCAxYQYCFbVLr80YJuMEGOdEnRbUt0AF1CuwJUlG1nBz3hvGWSLXgrIX2sY5Scl41tWLvziYwNEymopfehcnkaCTZtHxtPKtE"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-28 pb-32 px-6 max-w-7xl mx-auto min-h-screen">
+<!-- Hero Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="font-label text-[10px] font-bold tracking-[10%] uppercase text-[#848E2F] mb-2 block">USER AUTHENTICATED</span>
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-[-2%] text-[#fafaf5]">Welcome back</h2>
+</div>
+<div class="flex items-center gap-3 bg-primary-container/20 px-4 py-2 rounded-lg brew-status-pulse">
+<div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_#586100]"></div>
+<span class="font-label text-xs font-bold tracking-[10%] uppercase text-primary-fixed-dim">Status: Connected</span>
+</div>
+</div>
+</section>
+<!-- Profile Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Account Details Glass Card -->
+<div class="md:col-span-8 glass-card rounded-lg p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl transition-all duration-500 group-hover:bg-primary/10"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-3xl font-bold mb-1">Julian Vane</h3>
+<p class="text-on-surface-variant/60 font-medium">alchemist.vane@futurebrew.io</p>
+</div>
+<div class="bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20">
+<span class="font-label text-[10px] font-extrabold tracking-[15%] uppercase text-primary-fixed-dim">Elite Alchemist</span>
+</div>
+</div>
+<div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<p class="font-label text-[10px] font-bold tracking-[10%] uppercase text-on-surface-variant/40 mb-1">Transmissions</p>
+<p class="font-headline text-2xl font-bold">142</p>
+</div>
+<div>
+<p class="font-label text-[10px] font-bold tracking-[10%] uppercase text-on-surface-variant/40 mb-1">Credit Balance</p>
+<p class="font-headline text-2xl font-bold">4,200</p>
+</div>
+<div>
+<p class="font-label text-[10px] font-bold tracking-[10%] uppercase text-on-surface-variant/40 mb-1">Caffeine Level</p>
+<p class="font-headline text-2xl font-bold">Optimal</p>
+</div>
+<div>
+<p class="font-label text-[10px] font-bold tracking-[10%] uppercase text-on-surface-variant/40 mb-1">Member Since</p>
+<p class="font-headline text-2xl font-bold">2042</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Brew Status Chip / Mini Card -->
+<div class="md:col-span-4 glass-card rounded-lg p-8 flex flex-col justify-between border-l-2 border-primary/30">
+<div class="flex flex-col gap-1">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl mb-4">coffee_maker</span>
+<h4 class="font-headline text-xl font-bold">Active Extraction</h4>
+<p class="text-on-surface-variant/60 text-sm">Molecular Roast #042 is being prepared at Station Delta.</p>
+</div>
+<div class="mt-8">
+<div class="w-full bg-[#1a1c19] h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[75%] rounded-full shadow-[0_0_12px_#586100]"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">75% Complete</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40">2:14 Remaining</span>
+</div>
+</div>
+</div>
+<!-- Past Transmissions -->
+<div class="md:col-span-12 mt-6">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-3xl font-bold uppercase tracking-tight">Past Transmissions</h3>
+<button class="text-primary-fixed-dim font-label text-xs font-bold tracking-widest uppercase hover:underline decoration-2 underline-offset-8 transition-all">View All Archives</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Order Card 1 -->
+<div class="glass-card rounded-lg p-6 hover:scale-[1.02] transition-transform duration-500 group cursor-pointer glow-accent">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[#848E2F]">science</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/40">12.04.45</span>
+</div>
+<h4 class="font-headline text-xl font-bold mb-1">Quantum Latte</h4>
+<p class="text-on-surface-variant/60 text-xs mb-4 uppercase tracking-tighter">Ionized milk • Ethiopia Yirgacheffe • 4D Micro-Foam</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary/80">Delivered to Terminal 4</span>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="glass-card rounded-lg p-6 hover:scale-[1.02] transition-transform duration-500 group cursor-pointer">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#848E2F]">ac_unit</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/40">11.04.45</span>
+</div>
+<h4 class="font-headline text-xl font-bold mb-1">Cryo-Brew</h4>
+<p class="text-on-surface-variant/60 text-xs mb-4 uppercase tracking-tighter">Sub-zero extraction • Nitrogen infusion • Midnight Blend</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary/80">Delivered to Terminal 1</span>
+</div>
+</div>
+<!-- Order Card 3 -->
+<div class="glass-card rounded-lg p-6 hover:scale-[1.02] transition-transform duration-500 group cursor-pointer">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#848E2F]">bolt</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/40">09.04.45</span>
+</div>
+<h4 class="font-headline text-xl font-bold mb-1">Plasma Cortado</h4>
+<p class="text-on-surface-variant/60 text-xs mb-4 uppercase tracking-tighter">Thermal pulse roast • Double shot • Oat plasma</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary/80">Delivered to Terminal 4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- System Controls -->
+<div class="md:col-span-12 mt-12 mb-16">
+<h3 class="font-headline text-3xl font-bold uppercase tracking-tight mb-8">System Controls</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<button class="bg-surface-container-highest/10 hover:bg-surface-container-highest/20 p-6 rounded-lg flex items-center gap-4 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-fixed-dim">fingerprint</span>
+<div class="text-left">
+<p class="text-xs font-bold uppercase tracking-widest text-[#fafaf5]">Biometrics</p>
+<p class="text-[10px] text-on-surface-variant/60">Secure access enabled</p>
+</div>
+</button>
+<button class="bg-surface-container-highest/10 hover:bg-surface-container-highest/20 p-6 rounded-lg flex items-center gap-4 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-fixed-dim">notifications_active</span>
+<div class="text-left">
+<p class="text-xs font-bold uppercase tracking-widest text-[#fafaf5]">Comm-Links</p>
+<p class="text-[10px] text-on-surface-variant/60">Status updates active</p>
+</div>
+</button>
+<button class="bg-surface-container-highest/10 hover:bg-surface-container-highest/20 p-6 rounded-lg flex items-center gap-4 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-fixed-dim">credit_card</span>
+<div class="text-left">
+<p class="text-xs font-bold uppercase tracking-widest text-[#fafaf5]">Payment Flow</p>
+<p class="text-[10px] text-on-surface-variant/60">Standard terminal payment</p>
+</div>
+</button>
+<button class="bg-surface-container-highest/10 hover:bg-surface-container-highest/20 p-6 rounded-lg flex items-center gap-4 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-fixed-dim">settings_power</span>
+<div class="text-left">
+<p class="text-xs font-bold uppercase tracking-widest text-[#fafaf5]">Termination</p>
+<p class="text-[10px] text-on-surface-variant/60">Deactivate profile</p>
+</div>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#121414]/80 backdrop-blur-xl rounded-t-lg shadow-[0_-8px_32px_rgba(88,97,0,0.05)] md:hidden">
+<div class="flex justify-around items-center pt-3 pb-8 px-4">
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 hover:text-[#586100] transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="local_cafe">local_cafe</span>
+<span class="font-['Manrope'] text-[10px] font-bold tracking-[10%] uppercase mt-1">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 hover:text-[#586100] transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-['Manrope'] text-[10px] font-bold tracking-[10%] uppercase mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#848E2F] drop-shadow-[0_0_8px_rgba(88,97,0,0.2)] scale-105 transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)]" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Manrope'] text-[10px] font-bold tracking-[10%] uppercase mt-1">Profile</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#fafaf5]/40 hover:text-[#586100] transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Manrope'] text-[10px] font-bold tracking-[10%] uppercase mt-1">Settings</span>
+</a>
+</div>
+</nav>
+</body></html>

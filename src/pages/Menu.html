@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Future Brew | Digital Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1a1c19",
+                    "tertiary-container": "#9062ab",
+                    "on-tertiary-fixed": "#2f014a",
+                    "inverse-on-surface": "#f1f1ec",
+                    "on-tertiary-container": "#fffbff",
+                    "tertiary": "#764a90",
+                    "on-surface": "#1a1c19",
+                    "outline-variant": "#c8c8b4",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dadad5",
+                    "outline": "#787867",
+                    "primary-container": "#717a1c",
+                    "secondary-fixed-dim": "#c6ca9a",
+                    "inverse-primary": "#c3ce67",
+                    "secondary-fixed": "#e2e6b4",
+                    "surface-container-highest": "#e3e3de",
+                    "surface": "#fafaf5",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#dfea80",
+                    "primary-fixed-dim": "#c3ce67",
+                    "on-surface-variant": "#474839",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#1a1e00",
+                    "tertiary-fixed-dim": "#e5b4ff",
+                    "surface-variant": "#e3e3de",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#5f3479",
+                    "surface-tint": "#5b6401",
+                    "on-primary-fixed-variant": "#444b00",
+                    "tertiary-fixed": "#f4d9ff",
+                    "on-primary-container": "#feffdc",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fafaf5",
+                    "secondary": "#5d6139",
+                    "surface-container-low": "#f4f4ef",
+                    "secondary-container": "#e0e4b1",
+                    "surface-bright": "#fafaf5",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary": "#586100",
+                    "on-secondary-fixed-variant": "#454924",
+                    "on-secondary-container": "#61663d",
+                    "surface-container": "#eeeee9",
+                    "on-primary-fixed": "#1a1e00",
+                    "surface-container-high": "#e8e8e3",
+                    "inverse-surface": "#2f312e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121414; /* Deep Charcoal from Design System Don'ts */
+            color: #fafaf5; /* Cream surface color as text */
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(227, 227, 222, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(200, 200, 180, 0.1);
+        }
+        .brew-glow {
+            box-shadow: 0 0 20px rgba(88, 97, 0, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#121414]/80 backdrop-blur-xl">
+<div class="flex justify-between items-center px-6 py-6 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#848E2F] hover:bg-[#e3e3de]/10 transition-colors rounded-lg active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<h1 class="text-2xl font-bold tracking-tighter text-[#848E2F] font-['Space_Grotesk']">FUTURE BREW</h1>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-primary/20">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="minimalist silhouette of a professional user profile icon on a soft charcoal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9EG9ZIX-rpgMHlf_llmOb82dVvU0HMvZSEMEztHF9hzOOchswx-2UXsBGuYSDluzHBv_B0cDruMzyfI7dyUMxWsEbifjOa6tx3a5jPeWKAKwzbfi-jmTK4qFRBR7DjWzh_cttvs1b98_4551gduNLrYxEosHoNz8KdbzwCR_-OUtIlhmARgnSod6QcUqx296XjIvPdFkM16SxZv9ng5SGoy0Ira8nZDAFwrE1QtwfGM_WpetehyKdA2OFGQvVKJwnDQsZV3oRIic"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 px-6 max-w-5xl mx-auto">
+<!-- Hero Section -->
+<section class="text-center mb-16">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary-fixed-dim font-label">Molecular Extraction Active</span>
+</div>
+<h2 class="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-surface mb-6 leading-none">
+                The Alchemist's <br/><span class="text-primary-fixed-dim">Daily Protocol</span>
+</h2>
+<p class="text-surface-variant/60 max-w-xl mx-auto font-body text-lg leading-relaxed">
+                Precision-engineered flavors where traditional craft meets high-tech molecular synthesis. Choose your catalyst.
+            </p>
+</section>
+<!-- Categories Scrolling -->
+<nav class="sticky top-24 z-40 mb-12 py-4 bg-[#121414]/50 backdrop-blur-sm -mx-6 px-6 overflow-x-auto hide-scrollbar flex justify-center">
+<div class="flex items-center gap-8 min-w-max">
+<a class="text-primary font-headline font-bold text-sm tracking-widest uppercase border-b-2 border-primary pb-1" href="#">Coffee</a>
+<a class="text-surface-variant/40 font-headline font-bold text-sm tracking-widest uppercase hover:text-surface transition-colors" href="#">Tea</a>
+<a class="text-surface-variant/40 font-headline font-bold text-sm tracking-widest uppercase hover:text-surface transition-colors" href="#">Pastries</a>
+<a class="text-surface-variant/40 font-headline font-bold text-sm tracking-widest uppercase hover:text-surface transition-colors" href="#">Specials</a>
+</div>
+</nav>
+<!-- Menu Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+<!-- Item 1 -->
+<div class="glass-card p-8 rounded-lg brew-glow group hover:bg-[#e3e3de]/10 transition-all duration-300 transform hover:scale-[1.02]">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-bold font-headline text-surface tracking-tight group-hover:text-primary-fixed transition-colors">Neon Espresso</h3>
+<span class="text-xl font-bold text-primary-fixed-dim font-headline">$6.50</span>
+</div>
+<div class="w-full h-48 rounded-lg overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="close-up of a rich espresso with golden crema in a minimalist matte black ceramic cup, dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD59DepxNslf3bc--zJ-QCVFZepElWRydgzzqGTE3H_P2gYp0JnZJaFpcr0Ujk3V0t10Aeww1OB0sFxmQ6mDKVQkNQvRTTmSaIAtVY7ltV_sq5HUJqSopDYg5J0UOm5lACtMiKtQ2abTh0LklrZmpNIl4V8EGjIDXJGwV_dUoU6vFLmDhXR1u4MoaMjxSJYrnX5gOa4YwotwGZCqStCPVeKdTbvp3Ul9rj8UoGE8dL3Meozfg30r9giDx0uHt5olZDLlOCUohLlg4I"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary-fixed uppercase tracking-wider">High Voltage</span>
+</div>
+</div>
+<p class="text-surface-variant/70 font-body text-sm leading-relaxed">
+                    Sonic-aged beans extracted at 14 bars of pressure. Infused with a hint of synthesized citrus peel for a high-clarity finish.
+                </p>
+<div class="mt-6 flex items-center gap-3">
+<span class="text-[9px] font-bold text-primary/60 tracking-widest uppercase">Protocol: Sonic Wash</span>
+<div class="flex-1 h-[1px] bg-outline-variant/10"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="glass-card p-8 rounded-lg brew-glow group hover:bg-[#e3e3de]/10 transition-all duration-300 transform hover:scale-[1.02]">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-bold font-headline text-surface tracking-tight group-hover:text-primary-fixed transition-colors">Cryo-Brew</h3>
+<span class="text-xl font-bold text-primary-fixed-dim font-headline">$8.00</span>
+</div>
+<div class="w-full h-48 rounded-lg overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="icy cold brew coffee in a tall crystal glass with swirling milk clouds and geometric ice cubes, ethereal lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZkU24TVKKcWj1oCYWXvUslykTydsiZs4TKjCCuInR8YJ05MwUoW5vuVbYKVkLagudNOM2ioRaq-wB-exRTfyaleNvYHqTDvVeiVVsWTTmM04KEG4EL5RYD5B5w61AeKZuqlqB9zYxO_B9sH3gprBB6_B6cRyz9jbW1yL6guxCERnYQ9UWiWR7KZlcuHWEf66a6TYtd0p2G1muwQLzt60TMWfK8b6YUNaS8wOrIt1Kwm_td_vBUZO0CtDymC8EkbxF_QqRhbIQ7Eg"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary-fixed uppercase tracking-wider">Sub-Zero</span>
+</div>
+</div>
+<p class="text-surface-variant/70 font-body text-sm leading-relaxed">
+                    48-hour sub-zero maceration. Nitrogen-infused body with molecularly suspended vanilla bean crystals for a buttery mouthfeel.
+                </p>
+<div class="mt-6 flex items-center gap-3">
+<span class="text-[9px] font-bold text-primary/60 tracking-widest uppercase">Protocol: N2 Suspension</span>
+<div class="flex-1 h-[1px] bg-outline-variant/10"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="glass-card p-8 rounded-lg brew-glow group hover:bg-[#e3e3de]/10 transition-all duration-300 transform hover:scale-[1.02]">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-bold font-headline text-surface tracking-tight group-hover:text-primary-fixed transition-colors">Quantum Latte</h3>
+<span class="text-xl font-bold text-primary-fixed-dim font-headline">$7.25</span>
+</div>
+<div class="w-full h-48 rounded-lg overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="latte art in a dark ceramic mug showing complex geometric fractals, soft steam rising in a dim high-tech cafe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR_QUCPJm0rBH6QkOKauZ-ZeJUpvDG-jm_5LBS3iBakmqtV5vUz-Jlgs_ZnF_XlbWmJzMZRCddTiqkQ8vhrmpBJoJViwbNp-DWgKkd0Zc4ZMcrQE7YblYJXR_d1JyP937D8QjFepsXEEaRA1k4YrtSqX-V4d_mFtaa0n_Au_efXnDXjCvhL-Mvj0loEgONfOfb6gSyUtKyhIoFHeSfQ_LRRPRHC0wiMeIVBkr4FmkJZajkqv61JoXrl_uq63yS9dv_qkIv_DoBQoQ"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary-fixed uppercase tracking-wider">Hybrid</span>
+</div>
+</div>
+<p class="text-surface-variant/70 font-body text-sm leading-relaxed">
+                    A dual-state beverage featuring a hot espresso core surrounded by a cold, aerated oat-milk foam mantle. 
+                </p>
+<div class="mt-6 flex items-center gap-3">
+<span class="text-[9px] font-bold text-primary/60 tracking-widest uppercase">Protocol: Thermal Shear</span>
+<div class="flex-1 h-[1px] bg-outline-variant/10"></div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="glass-card p-8 rounded-lg brew-glow group hover:bg-[#e3e3de]/10 transition-all duration-300 transform hover:scale-[1.02]">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-bold font-headline text-surface tracking-tight group-hover:text-primary-fixed transition-colors">Olive Extract V60</h3>
+<span class="text-xl font-bold text-primary-fixed-dim font-headline">$9.50</span>
+</div>
+<div class="w-full h-48 rounded-lg overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="pour over coffee being prepared with precision glass equipment, golden amber liquid dripping into a beaker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqzz_6dcKwm6uwimy-oL8yGe4JmhNqpv3Kl0Ybieg9oAO3takAs8zRMDbYAhN8Gk3W2ez0jpYqAz0A4eYHUHQJXI2lJ08lh6nJINeAa1LISiGkho0igpADz4-kNaWJd8tq7pr9inAtAQJyczMMXb5UUTD-wOSl513e2U6hnZ_WwC3ePDSo6dCme9Ti_hBbJ0JByfFTBYwMBq7Uq5UJFGVO42-dvhhbvFtNuIgxBth7je74kYB0jjRS_yOLGaiT8ALZfzOsLFKecUs"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary-fixed uppercase tracking-wider">Reserve</span>
+</div>
+</div>
+<p class="text-surface-variant/70 font-body text-sm leading-relaxed">
+                    Single-origin Ethiopian Yirgacheffe washed with saline-optimized water. Served with an atomized mist of cold-pressed olive essence.
+                </p>
+<div class="mt-6 flex items-center gap-3">
+<span class="text-[9px] font-bold text-primary/60 tracking-widest uppercase">Protocol: Ion Optimized</span>
+<div class="flex-1 h-[1px] bg-outline-variant/10"></div>
+</div>
+</div>
+</div>
+<!-- Footnote Status -->
+<div class="mt-20 flex flex-col items-center justify-center text-center">
+<div class="bg-primary-fixed-dim/10 border border-primary-fixed-dim/20 rounded-lg p-6 max-w-md w-full">
+<div class="flex items-center justify-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm" style="font-variation-settings: 'FILL' 1;">science</span>
+<span class="text-[10px] font-bold text-primary-fixed-dim uppercase tracking-[0.2em]">Live Lab Status</span>
+</div>
+<div class="flex justify-between items-center px-4">
+<div class="text-left">
+<p class="text-[10px] text-surface-variant/40 uppercase font-bold tracking-widest">Temperature</p>
+<p class="text-lg font-headline font-bold text-surface">94.2°C</p>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/10"></div>
+<div class="text-left">
+<p class="text-[10px] text-surface-variant/40 uppercase font-bold tracking-widest">Pressure</p>
+<p class="text-lg font-headline font-bold text-surface">9.1 BAR</p>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/10"></div>
+<div class="text-left">
+<p class="text-[10px] text-surface-variant/40 uppercase font-bold tracking-widest">TDS</p>
+<p class="text-lg font-headline font-bold text-surface">1.45%</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#121414]/80 backdrop-blur-xl border-t border-[#c8c8b4]/15 pb-8 pt-4 px-4 flex justify-around items-center shadow-[0_-4px_24px_rgba(26,28,25,0.05)]">
+<button class="flex flex-col items-center justify-center text-[#1a1c19]/60 dark:text-[#e3e3de]/60 hover:text-[#586100] transition-all transform active:scale-110 duration-300">
+<span class="material-symbols-outlined text-2xl">local_cafe</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold mt-1">Menu</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#586100] dark:text-[#848E2F] drop-shadow-[0_0_8px_rgba(88,97,0,0.2)] transform active:scale-110 duration-300">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold mt-1">Order</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#1a1c19]/60 dark:text-[#e3e3de]/60 hover:text-[#586100] transition-all transform active:scale-110 duration-300">
+<span class="material-symbols-outlined text-2xl">military_tech</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold mt-1">Loyalty</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#1a1c19]/60 dark:text-[#e3e3de]/60 hover:text-[#586100] transition-all transform active:scale-110 duration-300">
+<span class="material-symbols-outlined text-2xl">storefront</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold mt-1">Cafe</span>
+</button>
+</nav>
+</body></html>
