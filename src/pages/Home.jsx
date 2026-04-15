@@ -1,5 +1,5 @@
-import React from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
+import TestimonialSlider from '../components/Testimonials';
 
 export default function Home() {
   const { isDark } = useOutletContext();
@@ -97,6 +97,9 @@ export default function Home() {
             ))}
          </div>
       </section>
+
+      {/* Testimonial Section - Dynamic Social Proof */}
+      <TestimonialSlider isDark={isDark} />
 
       {/* CTA Lab - Solid Block Layout */}
       <section className={`py-40 px-6 md:px-20 transition-colors duration-700 ${isDark ? 'bg-[#121414]' : 'bg-white'}`}>
