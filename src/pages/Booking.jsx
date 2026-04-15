@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import { addBooking } from '../firebase/services';
 
 export default function Booking() {
   const { isDark } = useOutletContext();
+  const navigate = useNavigate();
   
   // State for interactivity
-  const [selectedTable, setSelectedTable] = useState('duo');
+  const [selectedTable, setSelectedTable] = useState(null);
   const [guestCount, setGuestCount] = useState(2);
   const [bookingDate, setBookingDate] = useState('2024-10-24');
   const [bookingTime, setBookingTime] = useState('10:30 AM');
+  const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -18,12 +21,24 @@ export default function Booking() {
     { id: 'collective', title: 'The Collective', cap: '4-8 Personnel', icon: 'group_add', desc: 'Multi-node synchronized laboratory.' }
   ];
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
+    if (!selectedTable) return;
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await addBooking({
+        email,
+        table: selectedTable,
+        date: bookingDate,
+        time: bookingTime,
+        guests: guestCount
+      });
       setIsConfirmed(true);
-    }, 2000);
+    } catch (error) {
+      console.error("Booking failed:", error);
+      alert("System Sync Failure. Please retry.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const adjustGuests = (amount) => {

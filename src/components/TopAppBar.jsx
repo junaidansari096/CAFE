@@ -47,6 +47,13 @@ export default function TopAppBar({ isDark, toggleTheme }) {
           Access Terminal
         </Link>
 
+        <Link 
+          to="/admin" 
+          className={`px-4 py-1.5 border-2 border-primary text-primary font-headline text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-zinc-950 transition-all ${isDark ? '' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none'}`}
+        >
+          Terminal
+        </Link>
+
         {/* Theme Toggle Button - Solid style */}
          <button 
            onClick={toggleTheme}

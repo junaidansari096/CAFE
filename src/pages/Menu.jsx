@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { getProducts } from '../firebase/services';
 
 export default function Menu() {
   const { isDark } = useOutletContext();
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = getProducts((data) => {
+      setItems(data);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className={`relative fade-in min-h-screen px-6 md:px-20 py-24 transition-colors duration-700 ${isDark ? 'bg-[#0d0f0f] text-[#fafaf5]' : 'bg-[#fafaf5] text-zinc-900'}`}>

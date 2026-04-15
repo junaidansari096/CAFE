@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import TopAppBar from './TopAppBar';
 import TaskBar from './TaskBar';
 
-export default function Layout() {
-  const [isDark, setIsDark] = useState(true);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
-
-  useEffect(() => {
-    document.body.className = isDark ? 'bg-[#121414]' : 'bg-[#fafaf5]';
-  }, [isDark]);
+export default function Layout({ isDark, toggleTheme }) {
 
   return (
     <div className={`min-h-screen flex flex-col relative pb-24 md:pb-0 transition-colors duration-700 ease-in-out ${isDark ? 'bg-[#121414] dark' : 'bg-[#fafaf5]'}`}>
@@ -52,6 +43,7 @@ export default function Layout() {
               <li><Link to="/terms" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Terms of Operation</Link></li>
               <li><Link to="/privacy" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Privacy Directive</Link></li>
               <li><Link to="/login" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Access Terminal</Link></li>
+              <li><Link to="/admin" className={`text-[10px] font-black uppercase tracking-widest text-primary hover:underline italic`}>Control Center //</Link></li>
             </ul>
           </div>
         </div>

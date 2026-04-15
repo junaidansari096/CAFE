@@ -8,6 +8,7 @@ export default function TaskBar({ isDark }) {
     { to: '/reserve', icon: 'table_restaurant', label: 'Reserve' },
     { to: '/rewards', icon: 'workspace_premium', label: 'Rewards' },
     { to: '/profile', icon: 'person', label: 'Profile' },
+    { to: '/admin', icon: 'terminal', label: 'Admin' },
   ];
 
   return (
