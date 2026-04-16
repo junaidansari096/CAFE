@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getTestimonials } from '../firebase/services';
 
 const testimonials = [
   {
@@ -73,11 +74,24 @@ export default function TestimonialSlider({ isDark }) {
     const unsubscribe = getTestimonials((data) => {
       const approved = data.filter(r => r.status === 'Approved');
       setReviews(approved.length > 0 ? approved : []);
+      // Reset index if it's now out of bounds
+      setCurrentIndex(prev => prev >= approved.length ? 0 : prev);
     });
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    let timer;
+    if (reviews.length > 1) {
+      timer = setInterval(() => {
+        nextSlide();
+      }, 5000);
+    }
+    return () => clearInterval(timer);
+  }, [reviews]);
+
   const nextSlide = () => {
+    if (reviews.length === 0) return;
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % reviews.length);
@@ -86,6 +100,7 @@ export default function TestimonialSlider({ isDark }) {
   };
 
   const prevSlide = () => {
+    if (reviews.length === 0) return;
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
@@ -100,9 +115,13 @@ export default function TestimonialSlider({ isDark }) {
         : 'bg-white border-zinc-950 shadow-[10px_10px_0px_0px_rgba(184,207,136,0.1)]'
     } ${layout === 'single' ? 'p-12 md:p-24 pt-32' : 'p-10 pt-20 w-[450px] flex-shrink-0'}`}>
       
-      <div className="absolute top-8 right-8 z-20">
-        <RatingStars rating={review.rating} isDark={isDark} />
-      </div>
+      {!review ? (
+        <div className="p-20 text-center opacity-20 uppercase tracking-[0.5em] text-[8px] font-black">Syncing Node...</div>
+      ) : (
+        <>
+          <div className="absolute top-8 right-8 z-20">
+            <RatingStars rating={review.rating} isDark={isDark} />
+          </div>
 
       <div className="absolute top-10 right-10 p-4 opacity-5">
         <span className="font-headline text-8xl font-black italic">"</span>
@@ -138,6 +157,8 @@ export default function TestimonialSlider({ isDark }) {
           </div>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 
@@ -179,11 +200,13 @@ export default function TestimonialSlider({ isDark }) {
 
       {/* DESKTOP VIEW: Continuous Smooth Slider */}
       <div className="hidden lg:block w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-        <div className="animate-marquee hover:pause flex gap-10 px-10">
-          {[...reviews, ...reviews].map((review, idx) => (
-            <TestimonialCard key={`${review.id}-${idx}`} review={review} layout="marquee" />
-          ))}
-        </div>
+        {reviews.length > 0 && (
+          <div className="animate-marquee hover:pause flex gap-10 px-10">
+            {[...reviews, ...reviews].map((review, idx) => (
+              <TestimonialCard key={`${review.id}-${idx}`} review={review} layout="marquee" />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

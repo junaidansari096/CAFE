@@ -16,6 +16,7 @@ import AdminLayout from './pages/Admin/AdminLayout';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ProductManager from './pages/Admin/ProductManager';
 import BookingManager from './pages/Admin/BookingManager';
+import ReviewManager from './pages/Admin/ReviewManager';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
