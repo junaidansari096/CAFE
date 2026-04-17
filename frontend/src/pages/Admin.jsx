@@ -76,6 +76,41 @@ export default function Admin() {
     } catch (err) { alert('Failed to update order'); }
   };
 
+  const handleDeleteOrder = async (id) => {
+    if (!window.confirm('PERMANENTLY PURGE ORDER FROM ARCHIVES?')) return;
+    try {
+      await api.adminDeleteOrder(id);
+      setOrders(orders.filter(o => o._id !== id));
+      alert('ORDER PURGED');
+      fetchAdminData();
+    } catch (err) { alert('Purge Failure: ' + err.message); }
+  };
+
+  const handlePurgeExpiredOrders = async () => {
+    const expiredOrders = orders.filter(o => {
+      if (o.status?.toLowerCase() !== 'cancelled') return false;
+      const createdDate = new Date(o.createdAt);
+      const now = new Date();
+      const diffHours = (now - createdDate) / (1000 * 60 * 60);
+      return diffHours > 24;
+    });
+
+    if (expiredOrders.length === 0) {
+      alert('NO EXPIRED SPECIMENS DETECTED ( > 24H )');
+      return;
+    }
+
+    if (!window.confirm(`INCINERATE ${expiredOrders.length} EXPIRED ORDERS?`)) return;
+
+    try {
+      setLoading(true);
+      await Promise.all(expiredOrders.map(o => api.adminDeleteOrder(o._id)));
+      alert(`CLEANUP COMPLETE: ${expiredOrders.length} RECORDS WIPED`);
+      fetchAdminData();
+    } catch (err) { alert('Cleanup Interrupted'); }
+    finally { setLoading(false); }
+  };
+
   const handleOpenEdit = (product) => {
     setEditingProduct(product);
     setProductFormData({
@@ -209,7 +244,7 @@ export default function Admin() {
         </div>
 
         {activeTab === 'orders' ? (
-           <OrdersTable orders={orders} onUpdate={handleUpdateOrder} />
+           <OrdersTable orders={orders} onUpdate={handleUpdateOrder} onDelete={handleDeleteOrder} onPurge={handlePurgeExpiredOrders} />
         ) : activeTab === 'products' ? (
           <div className="space-y-12">
             <div className="flex flex-col md:flex-row justify-between items-center bg-zinc-950 p-8 border-4 border-zinc-950 shadow-[10px_10px_0px_0px_rgba(30,30,30,0.1)] gap-6">
@@ -317,7 +352,20 @@ export default function Admin() {
             </div>
           </div>
         ) : activeTab === 'bookings' ? (
-           <BookingsTable bookings={bookings} onUpdate={handleUpdateBooking} onReschedule={(id, d, t) => api.adminUpdateBooking(id, { date: d, time: t }).then(fetchAdminData)} />
+           <BookingsTable 
+            bookings={bookings} 
+            onUpdate={handleUpdateBooking} 
+            onDelete={async (id) => {
+              if(window.confirm('PURGE BOOKING RECORD?')) {
+                try {
+                  await api.adminDeleteBooking(id);
+                  fetchAdminData();
+                  alert('RECORD INCINERATED');
+                } catch (err) { alert('Purge Failure: ' + err.message); }
+              }
+            }}
+            onReschedule={(id, d, t) => api.adminUpdateBooking(id, { date: d, time: t }).then(fetchAdminData)} 
+           />
         ) : (
            <ReviewsTable reviews={reviews} onApprove={id => api.adminApproveReview(id).then(fetchAdminData)} onDelete={id => api.adminDeleteReview(id).then(fetchAdminData)} />
         )}
@@ -373,13 +421,19 @@ function StatCard({ icon, label, value, color }) {
   );
 }
 
-function OrdersTable({ orders, onUpdate }) {
+function OrdersTable({ orders, onUpdate, onDelete, onPurge }) {
   return (
     <div className="bg-white border-4 border-zinc-950 shadow-[20px_20px_0px_0px_rgba(255,107,107,0.1)] overflow-hidden">
       <div className="bg-zinc-950 p-8">
         <h2 className="text-white font-headline font-black text-2xl uppercase italic tracking-tighter">
           ACTIVE QUEUE <span className="text-primary text-sm not-italic ml-4 tracking-widest opacity-50">// Transactional Flow</span>
         </h2>
+        <button 
+          onClick={onPurge}
+          className="px-4 py-2 border-2 border-primary/30 text-primary font-black text-[9px] uppercase hover:bg-primary hover:text-white transition-all italic"
+        >
+          Incinerate Expired (24h)
+        </button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left font-headline font-bold text-xs uppercase italic">
@@ -395,9 +449,9 @@ function OrdersTable({ orders, onUpdate }) {
           <tbody className="divide-y divide-zinc-100">
             {orders.map(o => (
               <tr key={o._id} className="hover:bg-zinc-50/50 transition-colors">
-                <td className="px-8 py-8 text-zinc-400">#{o._id.slice(-6)}</td>
+                <td className="px-8 py-8 text-zinc-400">#{o._id?.slice(-6) || 'N/A'}</td>
                 <td className="px-8 py-8 text-zinc-950">{o.shippingAddress?.guestName || o.user?.name || 'CITIZEN'}</td>
-                <td className="px-8 py-8 text-primary">${o.totalPrice.toFixed(2)}</td>
+                <td className="px-8 py-8 text-primary">${(o.totalPrice || 0).toFixed(2)}</td>
                 <td className="px-8 py-8">
                     <span className={`px-4 py-2 border-2 text-[9px] font-black tracking-widest ${
                       o.status === 'Pending' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
@@ -407,18 +461,27 @@ function OrdersTable({ orders, onUpdate }) {
                       'bg-red-50 text-red-700 border-red-200'
                     }`}>{o.status}</span>
                 </td>
-                <td className="px-8 py-8">
-                  <select 
-                    className="bg-transparent border-2 border-zinc-100 px-4 py-2 outline-none font-black text-[10px] focus:border-primary transition-all cursor-pointer"
-                    value={o.status}
-                    onChange={(e) => onUpdate(o._id, e.target.value)}
-                  >
-                    <option value="Pending">PENDING</option>
-                    <option value="Preparing">PREPARING</option>
-                    <option value="Ready">READY</option>
-                    <option value="Delivered">DELIVERED</option>
-                    <option value="Cancelled">CANCELLED</option>
-                  </select>
+                 <td className="px-8 py-8">
+                  <div className="flex items-center gap-4">
+                    <select 
+                      className="bg-transparent border-2 border-zinc-100 px-4 py-2 outline-none font-black text-[10px] focus:border-primary transition-all cursor-pointer"
+                      value={o.status}
+                      onChange={(e) => onUpdate(o._id, e.target.value)}
+                    >
+                      <option value="Pending">PENDING</option>
+                      <option value="Preparing">PREPARING</option>
+                      <option value="Ready">READY</option>
+                      <option value="Delivered">DELIVERED</option>
+                      <option value="Cancelled">CANCELLED</option>
+                    </select>
+                    <button 
+                      onClick={() => onDelete(o._id)}
+                      className="text-zinc-300 hover:text-red-500 transition-colors"
+                      title="Purge Record"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -429,7 +492,7 @@ function OrdersTable({ orders, onUpdate }) {
   );
 }
 
-function BookingsTable({ bookings, onUpdate, onReschedule }) {
+function BookingsTable({ bookings, onUpdate, onDelete, onReschedule }) {
   return (
     <div className="bg-white border-4 border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)] overflow-hidden">
         <div className="bg-zinc-950 p-8"><h2 className="text-white font-headline font-black text-2xl uppercase italic tracking-tighter">Shift Registry</h2></div>
@@ -446,8 +509,8 @@ function BookingsTable({ bookings, onUpdate, onReschedule }) {
             <tbody className="divide-y divide-zinc-100">
               {bookings.map(b => (
                 <tr key={b._id}>
-                  <td className="px-8 py-8">{b.guestName || b.user?.name || 'CITIZEN'}</td>
-                  <td className="px-8 py-8 text-primary">{b.date} // {b.time}</td>
+                  <td className="px-8 py-8 font-black text-zinc-950 tracking-tighter">{b.guestName || b.user?.name || 'CITIZEN'}</td>
+                  <td className="px-8 py-8 text-primary font-black uppercase italic tracking-tighter">{b.date || '---'} // {b.time || '---'}</td>
                   <td className="px-8 py-8">
                     <span className={`px-4 py-2 border-2 ${b.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-zinc-50 border-zinc-200'}`}>{b.status}</span>
                   </td>
@@ -455,13 +518,18 @@ function BookingsTable({ bookings, onUpdate, onReschedule }) {
                     <div className="flex gap-4">
                       {b.status === 'pending' && (
                         <>
-                          <button onClick={() => onUpdate(b._id, 'confirmed')} className="px-6 py-2 bg-primary text-on-primary text-[10px] font-black">LOCK</button>
+                          <button onClick={() => onUpdate(b._id, 'confirmed')} className="px-4 py-2 bg-primary text-on-primary text-[9px] font-black uppercase italic">Lock</button>
                           <button onClick={() => {
                             const d = prompt('NEW DATE:', b.date);
                             const t = prompt('NEW TIME:', b.time);
                             if (d && t) onReschedule(b._id, d, t);
-                          }} className="px-6 py-2 border-2 border-zinc-200 text-[10px] font-black">SHIFT</button>
+                          }} className="px-4 py-2 border-2 border-zinc-200 text-[9px] font-black uppercase italic">Shift</button>
                         </>
+                      )}
+                      {!(b.status?.toLowerCase() === 'cancelled' || b.status?.toLowerCase() === 'canceled') ? (
+                         <button onClick={() => { console.log('SIGNAL: CANCEL', b._id); onUpdate(b._id, 'cancelled'); }} className="px-4 py-2 bg-red-600/10 text-red-600 text-[9px] font-black uppercase italic hover:bg-red-600 hover:text-white transition-all">Cancel</button>
+                      ) : (
+                         <button onClick={() => { console.log('SIGNAL: PURGE', b._id); onDelete(b._id); }} className="px-4 py-2 bg-zinc-900 text-white text-[9px] font-black uppercase italic">Purge</button>
                       )}
                     </div>
                   </td>

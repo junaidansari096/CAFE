@@ -50,24 +50,32 @@ export const getAllBookingsAdmin = async (req, res) => {
 
 export const updateBookingStatus = async (req, res) => {
   try {
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true, runValidators: true }
-    );
-    if (updatedBooking) {
-      res.json(updatedBooking);
-    } else {
-      res.status(404).json({ message: 'Shift registry node not found.' });
-    }
+    const { id } = req.params;
+    if (!id || id.length < 24) throw new Error('Invalid or missing Node ID');
+    
+    const { status } = req.body;
+    console.log(`[ADMIN] Updating Booking ${id} to state: ${status}`);
+
+    const booking = await Booking.findById(id);
+    if (!booking) return res.status(404).json({ message: 'Target record not found' });
+
+    booking.status = status;
+    await booking.save();
+
+    res.json(booking);
   } catch (error) {
-    res.status(500).json({ message: 'Authorization shift failure: ' + error.message });
+    console.error('[CRITICAL] Booking Update Failure:', error);
+    res.status(500).json({ message: 'System Sync Failure: ' + error.message });
   }
 };
 
 export const updateBooking = async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id);
+    const { id } = req.params;
+    if (!id || id.length < 24) throw new Error('Invalid or missing Node ID');
+    
+    console.log(`[USER] Updating Booking ${id}`);
+    const booking = await Booking.findById(id);
     if (booking) {
       Object.assign(booking, req.body);
       const updatedBooking = await booking.save();
@@ -77,5 +85,22 @@ export const updateBooking = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+export const deleteBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id || id.length < 24) throw new Error('Invalid or missing Node ID');
+    
+    console.log(`[ADMIN] Purging Booking Record: ${id}`);
+    const booking = await Booking.findByIdAndDelete(id);
+    if (booking) {
+      res.json({ message: 'Booking ritual concluded' });
+    } else {
+      res.status(404).json({ message: 'Booking not found in archives' });
+    }
+  } catch (error) {
+    console.error('[CRITICAL] Booking Purge Failure:', error);
+    res.status(500).json({ message: 'System purging failure: ' + error.message });
   }
 };

@@ -266,7 +266,26 @@ export const api = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'Review deletion failed');
+    return data;
+  },
+
+  adminDeleteOrder: async (id) => {
+    const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Order purge failed');
+    return data;
+  },
+
+  adminDeleteBooking: async (id) => {
+    const response = await fetch(`${API_BASE_URL}/bookings/admin/delete/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Booking purge failed');
     return data;
   },
 };

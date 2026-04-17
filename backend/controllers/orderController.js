@@ -16,7 +16,7 @@ export const addOrderItems = async (req, res) => {
     return;
   } else {
     const order = new Order({
-      orderItems, // These will now include assignedPersonnel array for each item
+      orderItems,
       user: req.user._id,
       shippingAddress,
       paymentMethod,
@@ -64,23 +64,16 @@ export const cancelOrder = async (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
     
-    // Check if order belongs to user
     if (order.user.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Unauthorized cancellation attempt' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // Only allow cancellation if status is Pending
     if (order.status !== 'Pending') {
-      return res.status(400).json({ message: 'Extraction has already initiated. Cancellation protocol locked.' });
+      return res.status(400).json({ message: 'Cannot cancel an order that is already being prepared' });
     }
 
-    // Use findByIdAndUpdate for a cleaner atomic operation
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      { status: 'Cancelled' },
-      { new: true }
-    );
-    
+    order.status = 'Cancelled';
+    const updatedOrder = await order.save();
     res.json(updatedOrder);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -102,19 +95,40 @@ export const getOrders = async (req, res) => {
 // @route   PUT /api/orders/:id/status
 export const updateOrderStatus = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id || id.length < 24) throw new Error('Invalid Order ID');
+
     const { status } = req.body;
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true, runValidators: true }
-    );
-    
-    if (updatedOrder) {
-      res.json(updatedOrder);
+    console.log(`[ADMIN] Updating Order ${id} to state: ${status}`);
+
+    const order = await Order.findById(id);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    order.status = status;
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } catch (error) {
+    console.error('[CRITICAL] Order Update Failure:', error);
+    res.status(500).json({ message: 'Update failure: ' + error.message });
+  }
+};
+
+// @desc    Delete order
+// @route   DELETE /api/orders/:id
+export const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id || id.length < 24) throw new Error('Invalid Order ID');
+
+    console.log(`[ADMIN] Purging Order Record: ${id}`);
+    const order = await Order.findByIdAndDelete(id);
+    if (order) {
+      res.json({ message: 'Order purged from history' });
     } else {
-      res.status(404).json({ message: 'Order protocol not found in current sector.' });
+      res.status(404).json({ message: 'Order not found' });
     }
   } catch (error) {
-    res.status(400).json({ message: 'Comm-link failure: ' + error.message });
+    console.error('[CRITICAL] Order Purge Failure:', error);
+    res.status(500).json({ message: 'Purge failure: ' + error.message });
   }
 };
