@@ -99,12 +99,12 @@ export default function Home() {
             {featured.length > 0 ? featured.map((item, idx) => (
               <Link to={`/products/${item._id}`} key={item._id} className="group cursor-pointer">
                 <div className={`aspect-[4/5] overflow-hidden border-2 transition-all duration-700 relative mb-6 ${isDark ? 'border-zinc-800' : 'border-zinc-200 shadow-xl group-hover:shadow-primary/20'}`}>
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" />
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute top-0 left-0 bg-primary text-on-primary font-headline text-[9px] font-black px-4 py-2 uppercase tracking-widest">
                     {item.category}
                   </div>
                 </div>
-                <h3 className="font-headline text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors">{item.title}</h3>
+                <h3 className="font-headline text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors">{item.name}</h3>
                 <div className="w-8 h-1 bg-primary mt-3 group-hover:w-full transition-all duration-500"></div>
               </Link>
             )) : (

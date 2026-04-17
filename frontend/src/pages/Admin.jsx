@@ -17,7 +17,7 @@ export default function Admin() {
   const [showProductForm, setShowProductForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [productFormData, setProductFormData] = useState({
-    title: '', price: '', discountPrice: '', category: '', description: '', image: '', availability: true, featured: false
+    name: '', price: '', discountPrice: '', category: '', description: '', image: '', isAvailable: true, isFeatured: false
   });
 
   useEffect(() => {
@@ -78,14 +78,14 @@ export default function Admin() {
   const handleOpenEdit = (product) => {
     setEditingProduct(product);
     setProductFormData({
-      title: product.title,
+      name: product.name,
       price: product.price,
       discountPrice: product.discountPrice || '',
       category: product.category,
       description: product.description,
       image: product.image,
-      availability: product.availability,
-      featured: product.featured || false
+      isAvailable: product.isAvailable,
+      isFeatured: product.isFeatured || false
     });
     setShowProductForm(true);
     // Debug: alert('EDIT NODE OPENED');
@@ -105,7 +105,7 @@ export default function Admin() {
       }
       setShowProductForm(false);
       setEditingProduct(null);
-      setProductFormData({ title: '', price: '', discountPrice: '', category: '', description: '', image: '', availability: true, featured: false });
+      setProductFormData({ name: '', price: '', discountPrice: '', category: '', description: '', image: '', isAvailable: true, isFeatured: false });
       await fetchAdminData();
     } catch (err) {
       alert('Operational Failure: ' + err.message);
@@ -130,11 +130,11 @@ export default function Admin() {
 
   const handleSeedData = async () => {
     const seedProducts = [
-      { title: "Neon Espresso", price: "$6.50", category: "COFFEE", description: "Sonic-aged beans extracted at 14 bars. Carbon-filtered result.", image: ASSETS.SEED_IMAGES.ESPRESSO, featured: true },
-      { title: "Cryo-Brew", price: "$8.00", category: "COFFEE", description: "48-hour cold maceration. Sub-zero thermal state.", image: ASSETS.SEED_IMAGES.CRYO_BREW, featured: true },
-      { title: "Quantum Latte", price: "$7.25", category: "COFFEE", description: "Dual-state: thermal core and chilled mantle.", image: ASSETS.SEED_IMAGES.LATTE },
-      { title: "Olive Extract", price: "$9.50", category: "TEA", description: "Single-origin Yirgacheffe. Saline-optimized catalyst.", image: ASSETS.SEED_IMAGES.TEA },
-      { title: "Nebula Tart", price: "$12.00", category: "PASTRIES", description: "Molecular crust with neon-infused core.", image: ASSETS.SEED_IMAGES.PASTRY }
+      { name: "Neon Espresso", price: 6.50, category: "Hot Coffee", description: "Sonic-aged beans extracted at 14 bars. Carbon-filtered result.", image: ASSETS.SEED_IMAGES.ESPRESSO, isFeatured: true },
+      { name: "Cryo-Brew", price: 8.00, category: "Iced Coffee", description: "48-hour cold maceration. Sub-zero thermal state.", image: ASSETS.SEED_IMAGES.CRYO_BREW, isFeatured: true },
+      { name: "Quantum Latte", price: 7.25, category: "Hot Coffee", description: "Dual-state: thermal core and chilled mantle.", image: ASSETS.SEED_IMAGES.LATTE },
+      { name: "Olive Extract", price: 9.50, category: "Beans", description: "Single-origin Yirgacheffe. Saline-optimized catalyst.", image: ASSETS.SEED_IMAGES.TEA },
+      { name: "Nebula Tart", price: 12.00, category: "Pastries", description: "Molecular crust with neon-infused core.", image: ASSETS.SEED_IMAGES.PASTRY }
     ];
 
     try {
@@ -216,7 +216,7 @@ export default function Admin() {
                <div className="flex gap-4">
                  <button onClick={handleSeedData} className="px-6 py-3 border-2 border-primary text-primary font-headline font-black text-[10px] tracking-widest hover:bg-primary hover:text-on-primary transition-all uppercase">Source Defaults</button>
                  <button 
-                    onClick={() => { setEditingProduct(null); setProductFormData({ title: '', price: '', discountPrice: '', category: '', description: '', image: '', availability: true, featured: false }); setShowProductForm(!showProductForm); }} 
+                    onClick={() => { setEditingProduct(null); setProductFormData({ name: '', price: '', discountPrice: '', category: '', description: '', image: '', isAvailable: true, isFeatured: false }); setShowProductForm(!showProductForm); }} 
                     className="px-6 py-3 bg-primary text-on-primary font-headline font-black text-[10px] tracking-widest hover:scale-105 transition-all active:scale-95 shadow-lg flex items-center gap-2 uppercase"
                  >
                    {showProductForm ? <><X size={14}/> Close Terminal</> : <><Plus size={14}/> Induct Specimen</>}
@@ -228,15 +228,15 @@ export default function Admin() {
               <div className="bg-white border-4 border-zinc-950 p-10 shadow-[20px_20px_0px_0px_rgba(184,207,136,1)] fade-in">
                 <form onSubmit={handleProductSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-6">
-                    <InputGroup icon={<Info size={14}/>} label="Specimen Identity" value={productFormData.title} onChange={v => setProductFormData({...productFormData, title: v})} />
+                     <InputGroup icon={<Info size={14}/>} label="Specimen Identity" value={productFormData.name} onChange={v => setProductFormData({...productFormData, name: v})} />
                     <div className="grid grid-cols-2 gap-6">
-                      <InputGroup icon={<Zap size={14}/>} label="Base Yield ($)" value={productFormData.price} placeholder="$0.00" onChange={v => setProductFormData({...productFormData, price: v})} />
-                      <InputGroup icon={<Percent size={14}/>} label="Promo Yield ($)" value={productFormData.discountPrice} placeholder="$0.00" onChange={v => setProductFormData({...productFormData, discountPrice: v})} />
+                      <InputGroup icon={<Zap size={14}/>} label="Base Yield ($)" value={productFormData.price} placeholder="0.00" onChange={v => setProductFormData({...productFormData, price: v})} />
+                      <InputGroup icon={<Percent size={14}/>} label="Promo Yield ($)" value={productFormData.discountPrice} placeholder="0.00" onChange={v => setProductFormData({...productFormData, discountPrice: v})} />
                     </div>
-                    <InputGroup label="Sector / Category" value={productFormData.category} placeholder="COFFEE, TEA, PASTRIES" onChange={v => setProductFormData({...productFormData, category: v})} />
+                    <InputGroup label="Sector / Category" value={productFormData.category} placeholder="Hot Coffee, Iced Coffee..." onChange={v => setProductFormData({...productFormData, category: v})} />
                     <div className="flex gap-8 items-center pt-4">
-                       <ToggleGroup label="Availability" active={productFormData.availability} onToggle={v => setProductFormData({...productFormData, availability: v})} />
-                       <ToggleGroup label="Featured" active={productFormData.featured} onToggle={v => setProductFormData({...productFormData, featured: v})} />
+                       <ToggleGroup label="Availability" active={productFormData.isAvailable} onToggle={v => setProductFormData({...productFormData, isAvailable: v})} />
+                       <ToggleGroup label="Featured" active={productFormData.isFeatured} onToggle={v => setProductFormData({...productFormData, isFeatured: v})} />
                     </div>
                   </div>
                   <div className="space-y-6">
@@ -274,28 +274,28 @@ export default function Admin() {
                     {products.map((product) => (
                       <tr key={product._id} className="hover:bg-zinc-50/50 transition-colors">
                         <td className="px-8 py-8">
-                          <div className={`w-20 h-20 border-2 grayscale hover:grayscale-0 transition-all relative ${product.featured ? 'border-primary ring-4 ring-primary/10' : 'border-zinc-200'}`}>
-                            <img src={product.image} className="w-full h-full object-cover" alt={product.title} />
-                            {product.featured && <div className="absolute -top-3 -right-3 bg-primary text-white text-[8px] px-2 py-1 font-black shadow-lg">FEATURED</div>}
+                           <div className={`w-20 h-20 border-2 grayscale hover:grayscale-0 transition-all relative ${product.isFeatured ? 'border-primary ring-4 ring-primary/10' : 'border-zinc-200'}`}>
+                            <img src={product.image} className="w-full h-full object-cover" alt={product.name} />
+                            {product.isFeatured && <div className="absolute -top-3 -right-3 bg-primary text-white text-[8px] px-2 py-1 font-black shadow-lg">FEATURED</div>}
                           </div>
                         </td>
                         <td className="px-8 py-8">
-                           <div className="text-zinc-950 text-base">{product.title}</div>
+                           <div className="text-zinc-950 text-base">{product.name}</div>
                            <div className="text-primary text-[9px] tracking-widest mt-1 opacity-70">{product.category}</div>
                         </td>
                         <td className="px-8 py-8">
                            {product.discountPrice ? (
                              <div className="flex flex-col">
-                               <span className="text-zinc-300 line-through text-[10px]">{product.price}</span>
-                               <span className="text-red-500 text-xl font-black">{product.discountPrice}</span>
+                               <span className="text-zinc-300 line-through text-[10px]">${product.price}</span>
+                               <span className="text-red-500 text-xl font-black">${product.discountPrice}</span>
                              </div>
                            ) : (
-                             <span className="text-zinc-950 text-xl font-black">{product.price}</span>
+                             <span className="text-zinc-950 text-xl font-black">${product.price}</span>
                            )}
                         </td>
                         <td className="px-8 py-8">
-                           <div className={`inline-block px-4 py-2 border-2 text-[9px] tracking-[0.2em] font-black ${product.availability ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'}`}>
-                             {product.availability ? 'ONLINE' : 'DEACTIVATED'}
+                           <div className={`inline-block px-4 py-2 border-2 text-[9px] tracking-[0.2em] font-black ${product.isAvailable ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'}`}>
+                             {product.isAvailable ? 'ONLINE' : 'DEACTIVATED'}
                            </div>
                         </td>
                         <td className="px-8 py-8">

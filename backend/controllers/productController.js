@@ -30,17 +30,16 @@ export const getProductById = async (req, res) => {
 // @route   POST /api/products
 export const createProduct = async (req, res) => {
   try {
-    const { title, price, discountPrice, category, description, image, availability, stock, featured } = req.body;
+    const { name, price, category, description, image, stock, isFeatured, isAvailable } = req.body;
     const product = new Product({
-      title,
+      name,
       price,
-      discountPrice,
       category,
       description,
       image,
-      availability,
       stock,
-      featured
+      isFeatured,
+      isAvailable
     });
     const createdProduct = await product.save();
     res.status(201).json(createdProduct);
@@ -55,17 +54,16 @@ export const updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (product) {
-      const { title, price, discountPrice, category, description, image, availability, stock, featured } = req.body;
+      const { name, price, category, description, image, stock, isFeatured, isAvailable } = req.body;
       
-      product.title = title || product.title;
+      product.name = name || product.name;
       product.price = price || product.price;
-      product.discountPrice = discountPrice !== undefined ? discountPrice : product.discountPrice;
       product.category = category || product.category;
       product.description = description || product.description;
       product.image = image || product.image;
-      product.availability = availability !== undefined ? availability : product.availability;
       product.stock = stock !== undefined ? stock : product.stock;
-      product.featured = featured !== undefined ? featured : product.featured;
+      product.isFeatured = isFeatured !== undefined ? isFeatured : product.isFeatured;
+      product.isAvailable = isAvailable !== undefined ? isAvailable : product.isAvailable;
 
       const updatedProduct = await product.save();
       res.json(updatedProduct);

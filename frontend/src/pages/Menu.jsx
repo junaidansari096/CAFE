@@ -81,7 +81,7 @@ export default function Menu() {
 
               <div className="flex flex-col md:flex-row gap-10 items-center">
                  <div className={`w-full md:w-1/2 aspect-square overflow-hidden border-2 transition-all duration-700 relative ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                    <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src={item.image} alt={item.title} />
+                    <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
                     {item.discountPrice && (
                       <div className="absolute bottom-4 right-4 bg-red-600 text-white font-headline font-black text-[10px] p-2 px-3 tracking-widest shadow-2xl">
                         PROMO
@@ -91,15 +91,15 @@ export default function Menu() {
                  <div className="w-full md:w-1/2">
                     <span className="text-primary font-headline text-[10px] font-black tracking-widest uppercase mb-4 block opacity-60">Protocol: {item.category}</span>
                     <div className="flex justify-between items-baseline mb-4 flex-wrap gap-4">
-                      <h3 className="text-4xl lg:text-5xl font-black font-headline uppercase tracking-tighter leading-none">{item.title}</h3>
+                      <h3 className="text-4xl lg:text-5xl font-black font-headline uppercase tracking-tighter leading-none">{item.name}</h3>
                       <div className="flex flex-col items-end">
                         {item.discountPrice ? (
                           <>
-                            <span className="text-zinc-400 line-through text-xs font-bold font-headline mb-1">{item.price}</span>
-                            <span className="text-red-500 text-3xl font-black font-headline italic">{item.discountPrice}</span>
+                            <span className="text-zinc-400 line-through text-xs font-bold font-headline mb-1">${item.price}</span>
+                            <span className="text-red-500 text-3xl font-black font-headline italic">${item.discountPrice}</span>
                           </>
                         ) : (
-                          <span className="text-2xl font-black text-primary font-headline italic">{item.price}</span>
+                          <span className="text-2xl font-black text-primary font-headline italic">${item.price}</span>
                         )}
                       </div>
                     </div>

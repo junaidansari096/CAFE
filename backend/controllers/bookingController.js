@@ -2,18 +2,27 @@ import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 
 export const createBooking = async (req, res) => {
-  const { date, time, guests, occasion } = req.body;
+  const { date, time, guests, occasion, guestName, email, phoneNumber } = req.body;
+  
   try {
-    const booking = await Booking.create({
-      user: req.user._id,
+    // If logged in, use user data. If guest, use provided name/email.
+    const bookingData = {
       date,
       time,
       guests,
       occasion,
-    });
+      guestName: guestName || (req.user ? req.user.name : 'Unknown Guest'),
+      email: email || (req.user ? req.user.email : 'Unknown@Email.com'),
+      phoneNumber: phoneNumber || (req.user ? req.user.phoneNumber : ''),
+      user: req.user ? req.user._id : null
+    };
 
-    // Add 10 points for every booking
-    await User.findByIdAndUpdate(req.user._id, { $inc: { rewardsPoints: 10 } });
+    const booking = await Booking.create(bookingData);
+
+    // If logged in, Add 10 points for every booking
+    if (req.user) {
+      await User.findByIdAndUpdate(req.user._id, { $inc: { rewardsPoints: 10 } });
+    }
 
     res.status(201).json(booking);
   } catch (error) {
@@ -40,11 +49,12 @@ export const getAllBookingsAdmin = async (req, res) => {
 };
 
 export const updateBookingStatus = async (req, res) => {
-  const { status } = req.body;
+  const { status, tableNumber } = req.body;
   try {
     const booking = await Booking.findById(req.params.id);
     if (booking) {
-      booking.status = status;
+      booking.status = status || booking.status;
+      booking.tableNumber = tableNumber !== undefined ? tableNumber : booking.tableNumber;
       await booking.save();
       res.json(booking);
     } else {

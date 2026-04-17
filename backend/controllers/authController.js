@@ -18,7 +18,8 @@ export const signup = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      role: user.role,
+      isAdmin: user.role === 'admin',
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -35,7 +36,8 @@ export const login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
+        role: user.role,
+        isAdmin: user.role === 'admin',
         token: generateToken(user._id),
       });
     } else {
@@ -53,7 +55,8 @@ export const getProfile = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      role: user.role,
+      isAdmin: user.role === 'admin',
       rewardsPoints: user.rewardsPoints,
     });
   } else {
