@@ -21,7 +21,8 @@ export default function Login() {
     try {
       const data = await api.login(email, password);
       setUser(data); // Sync globally
-      if (data.isAdmin) {
+      const isAdmin = data.isAdmin || data.role === 'admin';
+      if (isAdmin) {
         navigate('/admin');
       } else {
         navigate('/profile');

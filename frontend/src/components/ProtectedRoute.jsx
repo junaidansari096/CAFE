@@ -17,6 +17,7 @@ export default function ProtectedRoute({ children }) {
 
   if (!isAdmin) {
     // If user is logged in but not an admin, send to profile or home
+    console.warn("ADMIN ACCESS DENIED: Missing role 'admin'");
     return <Navigate to="/" replace />;
   }
 

@@ -22,7 +22,8 @@ export default function Admin() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || !user.isAdmin) {
+    const isAdmin = user?.isAdmin || user?.role === 'admin';
+    if (!user || !isAdmin) {
       setError('ACCESS DENIED: Administrative Privileges Required');
       setLoading(false);
       return;
