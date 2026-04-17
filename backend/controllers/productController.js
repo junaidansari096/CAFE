@@ -52,26 +52,18 @@ export const createProduct = async (req, res) => {
 // @route   PUT /api/products/:id
 export const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      const { name, price, category, description, image, stock, isFeatured, isAvailable } = req.body;
-      
-      product.name = name || product.name;
-      product.price = price || product.price;
-      product.category = category || product.category;
-      product.description = description || product.description;
-      product.image = image || product.image;
-      product.stock = stock !== undefined ? stock : product.stock;
-      product.isFeatured = isFeatured !== undefined ? isFeatured : product.isFeatured;
-      product.isAvailable = isAvailable !== undefined ? isAvailable : product.isAvailable;
-
-      const updatedProduct = await product.save();
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+    if (updatedProduct) {
       res.json(updatedProduct);
     } else {
-      res.status(404).json({ message: 'Product not found' });
+      res.status(404).json({ message: 'Specimen not localized in current sector.' });
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: 'Update sequence failure: ' + error.message });
   }
 };
 

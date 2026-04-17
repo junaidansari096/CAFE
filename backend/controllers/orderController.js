@@ -102,15 +102,19 @@ export const getOrders = async (req, res) => {
 // @route   PUT /api/orders/:id/status
 export const updateOrderStatus = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
-    if (order) {
-      order.status = req.body.status || order.status;
-      const updatedOrder = await order.save();
+    const { status } = req.body;
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+    
+    if (updatedOrder) {
       res.json(updatedOrder);
     } else {
-      res.status(404).json({ message: 'Order not found' });
+      res.status(404).json({ message: 'Order protocol not found in current sector.' });
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: 'Comm-link failure: ' + error.message });
   }
 };

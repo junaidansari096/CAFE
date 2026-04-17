@@ -49,19 +49,19 @@ export const getAllBookingsAdmin = async (req, res) => {
 };
 
 export const updateBookingStatus = async (req, res) => {
-  const { status, tableNumber } = req.body;
   try {
-    const booking = await Booking.findById(req.params.id);
-    if (booking) {
-      booking.status = status || booking.status;
-      booking.tableNumber = tableNumber !== undefined ? tableNumber : booking.tableNumber;
-      await booking.save();
-      res.json(booking);
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+    if (updatedBooking) {
+      res.json(updatedBooking);
     } else {
-      res.status(404).json({ message: 'Booking not found' });
+      res.status(404).json({ message: 'Shift registry node not found.' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Authorization shift failure: ' + error.message });
   }
 };
 

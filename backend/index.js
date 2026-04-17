@@ -28,14 +28,7 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(null, true); // open for now; tighten after deploy
-  },
+  origin: '*', // Allow all for local testing to eliminate CORS blocks
   credentials: true,
 }));
 
@@ -77,7 +70,7 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/stich_demo
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   })
