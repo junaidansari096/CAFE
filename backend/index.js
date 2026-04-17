@@ -67,14 +67,25 @@ if (process.env.NODE_ENV === 'production') {
 // Database Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/stich_demo';
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('✅ Connected to MongoDB');
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log('✅ Connected to MongoDB Cloud');
+  } catch (err) {
+    console.error('❌ Database connection error:', err);
+  }
+};
+
+// Only connect and listen if not in a serverless environment (like Vercel production)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  connectDB().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error('❌ Database connection error:', err);
-    process.exit(1);
   });
+} else {
+  // In Vercel serverless, we just connect. Vercel handles the invocation.
+  connectDB();
+}
+
+export default app;
