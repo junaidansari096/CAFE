@@ -395,7 +395,7 @@ function OrdersTable({ orders, onUpdate }) {
             {orders.map(o => (
               <tr key={o._id} className="hover:bg-zinc-50/50 transition-colors">
                 <td className="px-8 py-8 text-zinc-400">#{o._id.slice(-6)}</td>
-                <td className="px-8 py-8 text-zinc-950">{o.user?.name || 'CITIZEN'}</td>
+                <td className="px-8 py-8 text-zinc-950">{o.shippingAddress?.guestName || o.user?.name || 'CITIZEN'}</td>
                 <td className="px-8 py-8 text-primary">${o.totalPrice.toFixed(2)}</td>
                 <td className="px-8 py-8">
                     <span className={`px-4 py-2 border-2 text-[9px] font-black tracking-widest ${
@@ -445,7 +445,7 @@ function BookingsTable({ bookings, onUpdate, onReschedule }) {
             <tbody className="divide-y divide-zinc-100">
               {bookings.map(b => (
                 <tr key={b._id}>
-                  <td className="px-8 py-8">{b.user?.name || 'N/A'}</td>
+                  <td className="px-8 py-8">{b.guestName || b.user?.name || 'CITIZEN'}</td>
                   <td className="px-8 py-8 text-primary">{b.date} // {b.time}</td>
                   <td className="px-8 py-8">
                     <span className={`px-4 py-2 border-2 ${b.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-zinc-50 border-zinc-200'}`}>{b.status}</span>

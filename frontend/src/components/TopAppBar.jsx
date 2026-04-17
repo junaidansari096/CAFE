@@ -1,19 +1,26 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { ASSETS } from '../constants/assets';
 
 export default function TopAppBar({ isDark, toggleTheme }) {
   const { cartItems } = useCart();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const itemCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
   
   const navItems = [
     { label: 'Home', path: '/' },
     { label: 'Menu', path: '/menu' },
     { label: 'Reservations', path: '/reserve' },
-    { label: 'Rewards', path: '/rewards' },
-    { label: 'Profile', path: '/profile' }
+    { label: 'Rewards', path: '/rewards' }
   ];
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className={`sticky top-0 z-50 w-full px-6 py-4 md:px-20 flex items-center justify-between transition-all duration-700 ease-in-out border-b-2 ${isDark ? 'bg-[#0d0f0f] border-white/5 text-[#fafaf5]' : 'bg-white border-black/5 text-zinc-900 shadow-sm'}`}>
@@ -26,7 +33,7 @@ export default function TopAppBar({ isDark, toggleTheme }) {
         </Link>
       </div>
 
-      <nav className="hidden lg:flex items-center gap-1">
+      <nav className="hidden lg:flex items-center gap-2">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -42,24 +49,49 @@ export default function TopAppBar({ isDark, toggleTheme }) {
             {item.label}
           </NavLink>
         ))}
+        {user && (
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => 
+              `px-4 py-2 font-headline text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 rounded-md ${
+                isActive 
+                  ? 'bg-primary text-on-primary' 
+                  : `hover:bg-primary/10 ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`
+              }`
+            }
+          >
+            Profile
+          </NavLink>
+        )}
       </nav>
 
       <div className="flex items-center gap-3">
-        <Link 
-          to="/login" 
-          className={`hidden md:flex px-6 py-2 border-2 font-headline text-[10px] font-black tracking-widest uppercase transition-all duration-500 rounded-md ${isDark ? 'border-primary/40 text-primary hover:bg-primary hover:text-on-primary' : 'border-black/10 text-zinc-900 hover:bg-black hover:text-white'}`}
-        >
-          Access Terminal
-        </Link>
+        {user ? (
+          <button 
+            onClick={handleLogout}
+            className={`hidden md:flex px-6 py-2 border-2 font-headline text-[10px] font-black tracking-widest uppercase transition-all duration-500 rounded-md ${isDark ? 'border-red-500/40 text-red-500 hover:bg-red-500 hover:text-white' : 'border-red-500/10 text-red-600 hover:bg-red-500 hover:text-white'}`}
+          >
+            Terminate Session
+          </button>
+        ) : (
+          <Link 
+            to="/login" 
+            className={`hidden md:flex px-6 py-2 border-2 font-headline text-[10px] font-black tracking-widest uppercase transition-all duration-500 rounded-md ${isDark ? 'border-primary/40 text-primary hover:bg-primary hover:text-on-primary' : 'border-black/10 text-zinc-900 hover:bg-black hover:text-white'}`}
+          >
+            Access Terminal
+          </Link>
+        )}
 
-        <Link 
-          to="/admin" 
-          className={`px-4 py-1.5 border-2 border-primary text-primary font-headline text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-zinc-950 transition-all ${isDark ? '' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none'}`}
-        >
-          Terminal
-        </Link>
+        {(user?.isAdmin || user?.role === 'admin') && (
+          <Link 
+            to="/admin" 
+            className={`px-4 py-1.5 border-2 border-primary text-primary font-headline text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-zinc-950 transition-all ${isDark ? '' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none'}`}
+          >
+            Terminal
+          </Link>
+        )}
 
-        {/* Theme Toggle Button - Solid style */}
+        {/* Theme Toggle Button */}
          <button 
            onClick={toggleTheme}
            className={`w-10 h-10 rounded-md flex items-center justify-center transition-all duration-500 hover:scale-105 active:scale-95 border ${isDark ? 'bg-white/5 border-white/10 text-primary' : 'bg-black/5 border-black/10 text-primary'}`}

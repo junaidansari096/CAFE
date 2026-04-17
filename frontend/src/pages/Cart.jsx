@@ -32,10 +32,10 @@ export default function Cart() {
     try {
       const orderData = {
         orderItems: cartItems.map(item => ({
-          name: item.title,
+          name: item.name,
           qty: item.qty,
           image: item.image,
-          price: parseFloat(item.price.replace('$', '')),
+          price: item.price,
           product: item._id,
           assignedPersonnel: item.assignedPersonnel
         })),
@@ -83,14 +83,14 @@ export default function Cart() {
           {cartItems.map((item, idx) => (
             <div key={`${item._id}-${idx}`} className={`p-8 border-4 transition-all duration-700 flex flex-col md:flex-row items-start gap-10 group ${isDark ? 'bg-zinc-950 border-zinc-900 hover:border-zinc-800' : 'bg-white border-zinc-950 hover:shadow-[10px_10px_0px_0px_rgba(184,207,136,1)]'}`}>
               <div className="w-40 h-40 border-2 border-zinc-800 overflow-hidden shrink-0 mt-2">
-                <img src={item.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-700" alt={item.title} />
+                <img src={item.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-700" alt={item.name} />
               </div>
 
               <div className="flex-1 w-full space-y-6">
                 <div className="flex justify-between items-start">
                   <div>
                     <span className="text-primary font-headline text-[10px] font-black tracking-widest uppercase block mb-1">Protocol: {item.category}</span>
-                    <h3 className="text-3xl font-headline font-black uppercase tracking-tight italic">{item.title}</h3>
+                    <h3 className="text-3xl font-headline font-black uppercase tracking-tight italic">{item.name}</h3>
                   </div>
                   <button onClick={() => removeFromCart(item._id, item.customizations)} className="text-zinc-600 hover:text-red-500 transition-colors">
                     <Trash2 size={24} />
@@ -133,7 +133,7 @@ export default function Cart() {
                     <span className="w-10 text-center font-headline font-black">{item.qty}</span>
                     <button onClick={() => updateQty(item._id, item.qty + 1, item.customizations)} className="px-4 py-2 hover:bg-zinc-800/10"><Plus size={16}/></button>
                   </div>
-                  <div className="text-3xl font-headline font-black text-primary italic">{item.price}</div>
+                  <div className="text-3xl font-headline font-black text-primary italic">${item.price}</div>
                 </div>
               </div>
             </div>

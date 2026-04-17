@@ -50,7 +50,7 @@ export default function ProductDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
         <div className={`aspect-square border-4 overflow-hidden relative group transition-all duration-700 ${isDark ? 'border-zinc-800' : 'border-zinc-950'}`}>
-          <img src={product.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" alt={product.title} />
+          <img src={product.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" alt={product.name} />
           <div className="absolute top-8 left-8 bg-primary text-on-primary px-4 py-2 font-headline font-black text-[10px] tracking-widest uppercase">
             Protocol: {product.category}
           </div>
@@ -58,7 +58,7 @@ export default function ProductDetail() {
 
         <div className="flex flex-col">
           <h1 className="text-6xl md:text-8xl font-headline font-black uppercase tracking-tighter leading-[0.85] mb-8 italic">
-            {product.title.split(' ')[0]} <span className="text-primary not-italic">{product.title.split(' ').slice(1).join(' ')}</span>
+            {(product.name || 'Specimen').split(' ')[0]} <span className="text-primary not-italic">{(product.name || 'Unknown').split(' ').slice(1).join(' ')}</span>
           </h1>
           
           <div className="flex items-center gap-8 mb-12 flex-wrap">
@@ -66,15 +66,15 @@ export default function ProductDetail() {
                {product.discountPrice ? (
                  <>
                    <span className={`text-xl font-bold font-headline line-through opacity-30 ${isDark ? 'text-white' : 'text-zinc-950'}`}>
-                     {product.price}
+                     ${product.price}
                    </span>
                    <span className="text-6xl font-headline font-black text-red-500 italic">
-                     {product.discountPrice}
+                     ${product.discountPrice}
                    </span>
                  </>
                ) : (
                  <span className="text-6xl font-headline font-black text-primary italic">
-                   {product.price}
+                   ${product.price}
                  </span>
                )}
              </div>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useOutletContext, useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const { isDark } = useOutletContext();
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +20,7 @@ export default function Login() {
 
     try {
       const data = await api.login(email, password);
+      setUser(data); // Sync globally
       if (data.isAdmin) {
         navigate('/admin');
       } else {
@@ -43,14 +46,6 @@ export default function Login() {
           <p className={`mt-4 text-xs font-black uppercase tracking-widest transition-colors duration-700 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Identify yourself to the network.</p>
         </div>
 
-<<<<<<< HEAD:src/pages/Login.jsx
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {error && (
-            <div className="bg-red-500/10 border border-red-500 p-4 font-headline text-[10px] font-black uppercase tracking-widest text-red-500 text-center">
-              {error}
-            </div>
-          )}
-=======
         {error && (
           <div className="mb-8 p-4 bg-red-100 border-2 border-red-500 text-red-600 font-headline text-[10px] font-black uppercase tracking-widest animate-pulse">
             ERROR: {error}
@@ -58,7 +53,6 @@ export default function Login() {
         )}
 
         <form className="space-y-8" onSubmit={handleSubmit}>
->>>>>>> 5158c03 (Restructure project to monorepo and fix admin delete button):frontend/src/pages/Login.jsx
           <div className="space-y-4">
             <label className="block font-headline text-[10px] font-black tracking-[0.4em] text-primary uppercase">Terminal ID</label>
             <input 
@@ -90,19 +84,11 @@ export default function Login() {
           <button 
             type="submit"
             disabled={loading}
-<<<<<<< HEAD:src/pages/Login.jsx
-            className={`group relative w-full h-20 transition-transform active:translate-y-1 ${loading ? 'opacity-50' : ''}`}
-          >
-             <div className="absolute inset-0 bg-primary shadow-2xl"></div>
-             <div className="relative h-full flex items-center justify-center text-on-primary font-headline font-black uppercase tracking-[0.5em] text-sm italic">
-               {loading ? 'SYNCHRONIZING...' : 'AUTHORIZE ACCESS ->'}
-=======
             className="group relative w-full h-20 transition-transform active:translate-y-1 disabled:opacity-50"
           >
              <div className="absolute inset-0 bg-primary shadow-2xl"></div>
              <div className="relative h-full flex items-center justify-center text-on-primary font-headline font-black uppercase tracking-[0.5em] text-sm italic">
                {loading ? 'AUTHORIZING...' : 'AUTHORIZE ACCESS ->'}
->>>>>>> 5158c03 (Restructure project to monorepo and fix admin delete button):frontend/src/pages/Login.jsx
              </div>
           </button>
         </form>

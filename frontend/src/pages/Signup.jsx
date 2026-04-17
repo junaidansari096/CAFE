@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useOutletContext, useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
 
 export default function Signup() {
   const { isDark } = useOutletContext();
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,8 +26,9 @@ export default function Signup() {
 
     setLoading(true);
     try {
-      await api.signup(name, email, password);
-      navigate('/'); // Redirect to home
+      const data = await api.signup(name, email, password);
+      setUser(data); // Sync globally
+      navigate('/profile'); // Redirect to profile
     } catch (err) {
       setError(err.message || 'Initialization Failed: Script Error');
     } finally {

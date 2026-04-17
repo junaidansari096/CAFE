@@ -1,11 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  createUserWithEmailAndPassword 
-} from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { api } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -14,36 +8,46 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
+    const storedUser = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    if (storedUser && token) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (err) {
+        console.error("Auth: Payload Corruption", err);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
+    }
+    setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    // Demo bypass for user requirement
-    if (email === 'admin@futurebrew.cafe' && password === 'FW2026') {
-      setUser({ email, uid: 'admin_demo_id' });
-      return Promise.resolve();
-    }
-    return signInWithEmailAndPassword(auth, email, password);
+    const data = await api.login(email, password);
+    setUser(data);
+    return data;
   };
 
   const logout = () => {
-    return signOut(auth);
+    api.logout();
+    setUser(null);
   };
 
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (name, email, password) => {
+    const data = await api.signup(name, email, password);
+    setUser(data);
+    return data;
   };
 
   const value = {
     user,
+    setUser,
     login,
     logout,
     signup,
-    isAdmin: user?.email === 'admin@futurebrew.cafe' // Simplified admin check
+    isAdmin: user?.isAdmin || user?.role === 'admin'
   };
 
   return (
