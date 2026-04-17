@@ -1,8 +1,36 @@
-import React from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useOutletContext, useNavigate } from 'react-router-dom';
+import { api } from '../utils/api';
 
 export default function Signup() {
   const { isDark } = useOutletContext();
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (password !== confirmPassword) {
+      setError('Passphrases do not match');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await api.signup(name, email, password);
+      navigate('/'); // Redirect to home
+    } catch (err) {
+      setError(err.message || 'Initialization Failed: Script Error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={`min-h-screen flex items-center justify-center px-6 py-12 transition-colors duration-700 ${isDark ? 'bg-[#0d0f0f]' : 'bg-[#fafaf5]'}`}>
@@ -13,12 +41,21 @@ export default function Signup() {
           <p className={`mt-4 text-xs font-black uppercase tracking-widest transition-colors duration-700 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Join the global network of molecular alchemists.</p>
         </div>
 
-        <form className="space-y-8">
+        {error && (
+          <div className="mb-8 p-4 bg-red-100 border-2 border-red-500 text-red-600 font-headline text-[10px] font-black uppercase tracking-widest animate-pulse">
+            ERROR: {error}
+          </div>
+        )}
+
+        <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <label className="block font-headline text-[10px] font-black tracking-[0.4em] text-primary uppercase">Full Identity</label>
               <input 
                 type="text" 
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="JULIAN VANE"
                 className={`w-full p-6 border-2 font-headline font-black uppercase text-xs focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all ${
                   isDark ? 'bg-black border-zinc-800 text-white placeholder-zinc-800' : 'bg-zinc-50 border-zinc-100 text-black placeholder-zinc-300'
@@ -29,6 +66,9 @@ export default function Signup() {
               <label className="block font-headline text-[10px] font-black tracking-[0.4em] text-primary uppercase">Comm ID (Email)</label>
               <input 
                 type="email" 
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="ID@DOMAIN.IO"
                 className={`w-full p-6 border-2 font-headline font-black uppercase text-xs focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all ${
                   isDark ? 'bg-black border-zinc-800 text-white placeholder-zinc-800' : 'bg-zinc-50 border-zinc-100 text-black placeholder-zinc-300'
@@ -42,6 +82,9 @@ export default function Signup() {
               <label className="block font-headline text-[10px] font-black tracking-[0.4em] text-primary uppercase">Passphrase</label>
               <input 
                 type="password" 
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className={`w-full p-6 border-2 font-headline font-black uppercase text-xs focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all ${
                   isDark ? 'bg-black border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-100 text-black'
@@ -52,6 +95,9 @@ export default function Signup() {
               <label className="block font-headline text-[10px] font-black tracking-[0.4em] text-primary uppercase">Confirm Script</label>
               <input 
                 type="password" 
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
                 className={`w-full p-6 border-2 font-headline font-black uppercase text-xs focus:ring-4 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all ${
                   isDark ? 'bg-black border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-100 text-black'
@@ -61,14 +107,18 @@ export default function Signup() {
           </div>
 
           <div className="flex items-center gap-4 py-4">
-            <input type="checkbox" className="w-6 h-6 border-2 border-primary bg-transparent checked:bg-primary transition-all cursor-pointer" />
+            <input type="checkbox" required className="w-6 h-6 border-2 border-primary bg-transparent checked:bg-primary transition-all cursor-pointer" />
             <span className={`text-[10px] font-black uppercase tracking-widest ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>I accept the <Link to="/terms" className="text-primary hover:underline">Neural Directives</Link></span>
           </div>
 
-          <button className="group relative w-full h-20 transition-transform active:translate-y-1">
+          <button 
+            type="submit"
+            disabled={loading}
+            className="group relative w-full h-20 transition-transform active:translate-y-1 disabled:opacity-50"
+          >
              <div className="absolute inset-0 bg-primary shadow-2xl"></div>
              <div className="relative h-full flex items-center justify-center text-on-primary font-headline font-black uppercase tracking-[0.5em] text-sm italic">
-               COMPLETE INITIALIZATION {'->'}
+               {loading ? 'INITIALIZING...' : 'COMPLETE INITIALIZATION ->'}
              </div>
           </button>
         </form>

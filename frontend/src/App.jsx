@@ -8,6 +8,9 @@ import Rewards from './pages/Rewards';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Admin from './pages/Admin';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 
@@ -38,10 +41,14 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="reserve" element={<Booking />} />
           <Route path="menu" element={<Menu />} />
+          <Route path="product/:id" element={<ProductDetail />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="rewards" element={<Rewards />} />
           <Route path="profile" element={<Profile />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="control" element={<Admin />} />
+          <Route path="admin" element={<Admin />} />
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />
         </Route>

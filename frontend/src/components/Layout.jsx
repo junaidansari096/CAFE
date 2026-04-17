@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import TopAppBar from './TopAppBar';
 import TaskBar from './TaskBar';
+import { ASSETS } from '../constants/assets';
 
 export default function Layout({ isDark, toggleTheme }) {
 
@@ -19,12 +20,12 @@ export default function Layout({ isDark, toggleTheme }) {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-700 ${isDark ? 'bg-primary/20 text-primary' : 'bg-primary text-on-primary'}`}>
-                <span className="material-symbols-outlined text-[24px]">cyclone</span>
+                <span className="material-symbols-outlined text-[24px]">{ASSETS.BRAND_ICON}</span>
               </div>
-              <h2 className={`font-headline font-bold text-2xl tracking-tighter uppercase transition-colors duration-700 ${isDark ? 'text-white' : 'text-zinc-900'}`}>Future Brew</h2>
+              <h2 className={`font-headline font-bold text-2xl tracking-tighter uppercase transition-colors duration-700 ${isDark ? 'text-white' : 'text-zinc-900'}`}>{ASSETS.BRAND_NAME}</h2>
             </div>
             <p className={`max-w-sm text-sm leading-relaxed transition-colors duration-700 ${isDark ? 'text-[#6b6b65]' : 'text-zinc-500'}`}>
-              The global leader in molecular extraction and hyper-caffeinated experience labs. Since 2042.
+              {ASSETS.BRAND_SLOGAN} Since 2042.
             </p>
           </div>
           
@@ -50,12 +51,12 @@ export default function Layout({ isDark, toggleTheme }) {
         
         <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5">
           <p className={`text-[10px] font-bold tracking-widest uppercase transition-colors duration-700 ${isDark ? 'text-[#444]' : 'text-zinc-300'}`}>
-            © 2045 Future Brew • All Rights Reserved
+            © 2045 {ASSETS.BRAND_NAME} • All Rights Reserved
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            {['X', 'INSTAGRAM', 'LINKEDIN'].map(social => (
-              <span key={social} className={`text-[10px] font-black tracking-widest cursor-pointer hover:text-primary transition-colors ${isDark ? 'text-[#6b6b65]' : 'text-zinc-400'}`}>
-                {social}
+            {ASSETS.SOCIAL.map(social => (
+              <span key={social.label} className={`text-[10px] font-black tracking-widest cursor-pointer hover:text-primary transition-colors ${isDark ? 'text-[#6b6b65]' : 'text-zinc-400'}`}>
+                {social.label}
               </span>
             ))}
           </div>

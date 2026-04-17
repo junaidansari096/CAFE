@@ -1,7 +1,12 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { ASSETS } from '../constants/assets';
 
 export default function TopAppBar({ isDark, toggleTheme }) {
+  const { cartItems } = useCart();
+  const itemCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  
   const navItems = [
     { label: 'Home', path: '/' },
     { label: 'Menu', path: '/menu' },
@@ -15,9 +20,9 @@ export default function TopAppBar({ isDark, toggleTheme }) {
       <div className="flex items-center gap-2">
         <Link to="/" className="flex items-center gap-2 group">
           <div className={`w-8 h-8 rounded-md flex items-center justify-center transition-all duration-700 ${isDark ? 'bg-primary/10 text-primary border border-primary/30 group-hover:bg-primary group-hover:text-on-primary' : 'bg-primary text-on-primary group-hover:bg-zinc-900 font-bold'}`}>
-            <span className="material-symbols-outlined text-[20px]">cyclone</span>
+            <span className="material-symbols-outlined text-[20px]">{ASSETS.BRAND_ICON}</span>
           </div>
-          <h1 className="font-headline font-black text-xl tracking-tighter uppercase italic">Future Brew</h1>
+          <h1 className="font-headline font-black text-xl tracking-tighter uppercase italic">{ASSETS.BRAND_NAME}</h1>
         </Link>
       </div>
 
@@ -70,10 +75,14 @@ export default function TopAppBar({ isDark, toggleTheme }) {
            </div>
          </button>
 
-        <button className={`w-10 h-10 rounded-md flex items-center justify-center relative transition-all duration-500 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
+        <Link to="/cart" className={`w-10 h-10 rounded-md flex items-center justify-center relative transition-all duration-500 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
           <span className="material-symbols-outlined text-[20px]">shopping_cart</span>
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-on-primary text-[8px] rounded-full flex items-center justify-center font-bold border-2 border-[#0d0f0f]">2</span>
-        </button>
+          {itemCount > 0 && (
+            <span className={`absolute -top-1 -right-1 w-4 h-4 bg-primary text-on-primary text-[8px] rounded-full flex items-center justify-center font-bold border-2 ${isDark ? 'border-[#0d0f0f]' : 'border-white'}`}>
+              {itemCount}
+            </span>
+          )}
+        </Link>
       </div>
     </header>
   );

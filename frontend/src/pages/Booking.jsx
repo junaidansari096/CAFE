@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import { addBooking } from '../firebase/services';
+import { api } from '../utils/api';
 
 export default function Booking() {
   const { isDark } = useOutletContext();
@@ -9,11 +9,13 @@ export default function Booking() {
   // State for interactivity
   const [selectedTable, setSelectedTable] = useState(null);
   const [guestCount, setGuestCount] = useState(2);
-  const [bookingDate, setBookingDate] = useState('2024-10-24');
+  const [bookingDate, setBookingDate] = useState('2026-10-24');
   const [bookingTime, setBookingTime] = useState('10:30 AM');
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [bookingResponse, setBookingResponse] = useState(null);
+  const [error, setError] = useState('');
 
   const tableOptions = [
     { id: 'solo', title: 'Solo Alcove', cap: '1-2 Personnel', icon: 'person', desc: 'Secure isolation pods for focused extraction.' },
@@ -22,20 +24,23 @@ export default function Booking() {
   ];
 
   const handleBooking = async () => {
-    if (!selectedTable) return;
+    if (!selectedTable) {
+        setError("NODE SELECTION REQUIRED");
+        return;
+    }
     setIsSubmitting(true);
+    setError('');
     try {
-      await addBooking({
-        email,
-        table: selectedTable,
+      const data = await api.createBooking({
         date: bookingDate,
         time: bookingTime,
-        guests: guestCount
+        guests: guestCount,
+        occasion: selectedTable.toUpperCase()
       });
+      setBookingResponse(data);
       setIsConfirmed(true);
-    } catch (error) {
-      console.error("Booking failed:", error);
-      alert("System Sync Failure. Please retry.");
+    } catch (err) {
+      setError(err.message || 'Transmission Failed: Signal Lost');
     } finally {
       setIsSubmitting(false);
     }
@@ -48,28 +53,40 @@ export default function Booking() {
     }
   };
 
-  if (isConfirmed) {
+  if (isConfirmed && bookingResponse) {
     return (
       <div className={`flex flex-col items-center justify-center min-h-screen px-6 text-center transition-colors duration-700 ${isDark ? 'bg-[#0d0f0f] text-[#fafaf5]' : 'bg-[#fafaf5] text-zinc-900'}`}>
-        <div className="border-4 border-primary p-12 relative">
+        <div className="border-4 border-primary p-12 relative max-w-2xl">
            <div className="absolute -top-6 -left-6 bg-primary text-on-primary p-2">
               <span className="material-symbols-outlined text-4xl">verified</span>
            </div>
-           <h2 className="font-headline text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8 leading-none">PROTOCOL <br/><span className="text-primary italic">LOCKED</span></h2>
-           <div className={`p-8 border-2 mb-12 flex flex-col md:flex-row gap-12 text-left ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+           <h2 className="font-headline text-5xl md:text-8xl font-black uppercase tracking-tighter mb-4 leading-none">PROTOCOL <br/><span className="text-primary italic">LOCKED</span></h2>
+           <p className="font-headline text-xs font-black tracking-[0.4em] text-primary uppercase mb-8">System ID: {bookingResponse._id}</p>
+           
+           <div className={`p-8 border-2 mb-12 flex flex-col md:flex-row gap-8 text-left ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
               <div>
                  <span className="text-[10px] font-black font-headline uppercase text-primary block mb-2">Station</span>
-                 <div className="text-2xl font-black uppercase">{selectedTable}</div>
+                 <div className="text-xl font-black uppercase">{selectedTable}</div>
               </div>
               <div>
                  <span className="text-[10px] font-black font-headline uppercase text-primary block mb-2">Arrival</span>
-                 <div className="text-2xl font-black uppercase">{bookingDate} // {bookingTime}</div>
+                 <div className="text-xl font-black uppercase">{bookingDate} // {bookingTime}</div>
               </div>
               <div>
-                 <span className="text-[10px] font-black font-headline uppercase text-primary block mb-2">Personnel</span>
-                 <div className="text-2xl font-black uppercase">{guestCount} Units</div>
+                 <span className="text-[10px] font-black font-headline uppercase text-primary block mb-2">Status</span>
+                 <div className="text-xl font-black uppercase text-primary italic">{bookingResponse.status}</div>
               </div>
            </div>
+
+           <div className="mb-12 text-left opacity-60">
+              <p className="text-[10px] font-black uppercase mb-4 tracking-widest">Post-Sync Instructions:</p>
+              <ul className="text-xs font-bold space-y-2 uppercase italic">
+                <li>• Present System ID at Node Entry</li>
+                <li>• 15m Latency Buffer active</li>
+                <li>• Neural Sync mandatory</li>
+              </ul>
+           </div>
+
            <button 
               onClick={() => setIsConfirmed(false)}
               className="w-full py-4 bg-primary text-on-primary font-headline text-xs font-black tracking-[0.4em] uppercase transition-all active:scale-95"
@@ -93,9 +110,15 @@ export default function Booking() {
            BOOK <span className="text-primary italic">STATION</span>
         </h2>
         <p className={`max-w-xl text-xl font-medium leading-relaxed transition-colors duration-700 ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>
-          Secure your coordinates within the Beta-Brew extraction node. All stations are equipped with dedicated atmospheric controls.
+           Secure your coordinates within the Beta-Brew extraction node. All stations are equipped with dedicated atmospheric controls.
         </p>
       </section>
+
+      {error && (
+        <div className="mb-12 p-6 border-4 border-red-500 bg-red-500/10 text-red-500 font-headline font-black text-xs uppercase tracking-widest text-center animate-pulse">
+            CRITICAL ERROR: {error}
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
         
@@ -196,7 +219,7 @@ export default function Booking() {
              <div className="flex gap-6">
                 <span className="material-symbols-outlined text-primary text-3xl">terminal</span>
                 <p className="text-sm font-medium leading-relaxed italic opacity-70">
-                  "Manual synchronization required upon node entry. Biometric confirmation via Terminal-Beta will trigger extraction queue. No latency permitted."
+                   "Manual synchronization required upon node entry. Biometric confirmation via Terminal-Beta will trigger extraction queue. No latency permitted."
                 </p>
              </div>
           </div>
