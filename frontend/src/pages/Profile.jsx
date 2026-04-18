@@ -10,6 +10,7 @@ export default function Profile() {
   const [bookings, setBookings] = useState([]);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeHistoryTab, setActiveHistoryTab] = useState('orders'); // 'orders' or 'bookings'
 
   const fetchData = async () => {
     try {
@@ -129,75 +130,135 @@ export default function Profile() {
            
            <div className="grid grid-cols-4 gap-4 md:gap-12 border-t border-zinc-100/10 pt-8">
               {[
-                { label: "Logs", value: bookings.length },
-                { label: "Product", value: user.rewardsPoints },
-                { label: "Orders", value: orders.length },
-                { label: "Stable", value: "99%" }
+                { id: 'bookings', label: "Logs", value: bookings.length },
+                { id: 'points', label: "Product", value: user.rewardsPoints },
+                { id: 'orders', label: "Orders", value: orders.length },
+                { id: 'stable', label: "Stable", value: "99%" }
               ].map((stat) => (
-                <div key={stat.label} className="text-center md:text-left">
-                  <p className="text-[7px] md:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1 md:mb-3">{stat.label}</p>
-                  <p className="font-headline text-xl md:text-5xl font-black tracking-tighter italic">{stat.value}</p>
-                </div>
+                <button 
+                  key={stat.label} 
+                  onClick={() => ['orders', 'bookings'].includes(stat.id) && setActiveHistoryTab(stat.id)}
+                  className={`text-center md:text-left transition-all ${['orders', 'bookings'].includes(stat.id) ? 'hover:scale-105 active:scale-95' : ''}`}
+                >
+                  <p className={`text-[7px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-1 md:mb-3 transition-colors ${activeHistoryTab === stat.id ? 'text-primary' : 'text-zinc-500'}`}>{stat.label}</p>
+                  <p className={`font-headline text-xl md:text-5xl font-black tracking-tighter italic transition-colors ${activeHistoryTab === stat.id ? 'text-zinc-950' : ''}`}>{stat.value}</p>
+                </button>
               ))}
            </div>
         </div>
 
-        {/* Real-time Order Tracking: Compact Tactical Feed */}
+        {/* Tactical History: Dual-Mode Tracking */}
         <div className={`lg:col-span-4 p-6 md:p-12 flex flex-col transition-all overflow-hidden ${isDark ? 'bg-zinc-950' : 'bg-zinc-50'}`}>
-           <div className="flex items-center gap-3 mb-6 md:mb-10">
-              <Box size={18} className="text-primary" />
-              <h4 className="font-headline text-xl md:text-3xl font-black uppercase tracking-tighter italic">ACTIVE LOGS</h4>
+           <div className="flex items-center justify-between mb-6 md:mb-10">
+              <div className="flex items-center gap-3">
+                {activeHistoryTab === 'orders' ? <Box size={18} className="text-primary" /> : <Clock size={18} className="text-primary" />}
+                <h4 className="font-headline text-xl md:text-3xl font-black uppercase tracking-tighter italic">
+                  {activeHistoryTab === 'orders' ? 'ORDER LOGS' : 'SHIFT DATA'}
+                </h4>
+              </div>
+              <div className="flex gap-2">
+                 <button onClick={() => setActiveHistoryTab('orders')} className={`w-2 h-2 rounded-full transition-all ${activeHistoryTab === 'orders' ? 'bg-primary w-6' : 'bg-zinc-800'}`}></button>
+                 <button onClick={() => setActiveHistoryTab('bookings')} className={`w-2 h-2 rounded-full transition-all ${activeHistoryTab === 'bookings' ? 'bg-primary w-6' : 'bg-zinc-800'}`}></button>
+              </div>
            </div>
            
            <div className="flex-1 space-y-4 md:space-y-8 overflow-y-auto pr-2 max-h-[400px] md:max-h-[600px] custom-scrollbar">
-              {orders.length > 0 ? (
-                orders.map((order) => (
-                  <div key={order._id} className={`p-4 md:p-8 border-l-2 md:border-l-4 transition-all hover:bg-white/5 group ${
-                    order.status === 'Ready' ? 'border-green-500' : 
-                    order.status === 'Cancelled' ? 'border-red-500' : 'border-primary'
-                  }`}>
-                    <div className="flex justify-between items-start mb-4 md:mb-6">
-                       <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">#{order._id.slice(-6)}</p>
-                       <div className="flex items-center gap-1.5 px-2 py-0.5 bg-zinc-900 border border-zinc-800 text-[6px] md:text-[8px] font-black tracking-widest text-primary uppercase">
-                          {order.status}
-                       </div>
-                    </div>
-                    
-                    <div className="space-y-1 mb-4">
-                       {order.orderItems.map((item, idx) => (
-                         <div key={idx} className="flex justify-between text-[9px] md:text-[11px] font-bold uppercase tracking-tighter">
-                            <span className="text-zinc-500">{item.name}</span>
-                            <span className="text-primary font-black">x{item.qty}</span>
+              {activeHistoryTab === 'orders' ? (
+                orders.length > 0 ? (
+                  orders.map((order) => (
+                    <div key={order._id} className={`p-4 md:p-8 border-l-2 md:border-l-4 transition-all hover:bg-white/5 group ${
+                      order.status === 'Ready' || order.status === 'Delivered' ? 'border-green-500' : 
+                      order.status === 'Cancelled' ? 'border-red-500' : 'border-primary'
+                    }`}>
+                      <div className="flex justify-between items-start mb-4 md:mb-6">
+                         <div className="flex flex-col">
+                           <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">#{order._id.slice(-6)}</p>
+                           <p className="text-[6px] md:text-[8px] text-zinc-400 font-bold opacity-50">{new Date(order.createdAt).toLocaleDateString()}</p>
                          </div>
-                       ))}
+                         <div className={`flex items-center gap-1.5 px-2 py-0.5 border text-[6px] md:text-[8px] font-black tracking-widest uppercase ${
+                           order.status === 'Ready' || order.status === 'Delivered' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
+                           order.status === 'Cancelled' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-zinc-900 border-zinc-800 text-primary'
+                         }`}>
+                            {order.status}
+                         </div>
+                      </div>
+                      
+                      <div className="space-y-1 mb-4">
+                         {order.orderItems.map((item, idx) => (
+                           <div key={idx} className="flex justify-between text-[9px] md:text-[11px] font-bold uppercase tracking-tighter">
+                              <span className="text-zinc-500 truncate max-w-[120px]">{item.name}</span>
+                              <span className="text-primary font-black ml-2">x{item.qty}</span>
+                           </div>
+                         ))}
+                      </div>
+  
+                      <div className="pt-3 border-t border-zinc-100/5 flex justify-between items-center">
+                         <span className="text-sm md:text-xl font-headline font-black text-primary italic">${order.totalPrice.toFixed(2)}</span>
+                         {order.status === 'Pending' && (
+                             <button 
+                               onClick={() => handleCancelOrder(order._id)}
+                               className="px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 text-[7px] md:text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-xl"
+                             >
+                               ABORT
+                             </button>
+                         )}
+                      </div>
                     </div>
-
-                    <div className="pt-3 border-t border-zinc-100/5 flex justify-between items-center">
-                       <span className="text-sm md:text-xl font-headline font-black text-primary italic">${order.totalPrice.toFixed(2)}</span>
-                       {order.status === 'Pending' && (
-                           <button 
-                             onClick={() => handleCancelOrder(order._id)}
-                             className="px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 text-[7px] md:text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-xl"
-                           >
-                             ABORT
-                           </button>
-                       )}
-                    </div>
+                  ))
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center opacity-30 text-center py-10 md:py-20">
+                     <AlertCircle size={30} className="mb-4" />
+                     <p className="font-headline font-black uppercase tracking-widest text-[8px] md:text-xs">NO EXTRACTIONS FOUND</p>
                   </div>
-                ))
+                )
               ) : (
-                <div className="h-full flex flex-col items-center justify-center opacity-30 text-center py-10 md:py-20">
-                   <AlertCircle size={30} className="mb-4" />
-                   <p className="font-headline font-black uppercase tracking-widest text-[8px] md:text-xs">LOGS CLEAR</p>
-                </div>
+                bookings.length > 0 ? (
+                  bookings.map((booking) => (
+                    <div key={booking._id} className={`p-4 md:p-8 border-l-2 md:border-l-4 transition-all hover:bg-white/5 group ${
+                      booking.status === 'confirmed' ? 'border-primary' : 
+                      booking.status === 'completed' ? 'border-green-500' : 
+                      ['cancelled', 'canceled'].includes(booking.status?.toLowerCase()) ? 'border-red-500' : 'border-zinc-500'
+                    }`}>
+                      <div className="flex justify-between items-start mb-4 md:mb-6">
+                         <div className="flex flex-col">
+                           <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">#{booking._id.slice(-6)}</p>
+                           <p className="text-[10px] md:text-lg font-black tracking-tighter uppercase italic text-zinc-950 dark:text-[#fafaf5]">{booking.date}</p>
+                         </div>
+                         <div className={`flex items-center gap-1.5 px-2 py-0.5 border text-[6px] md:text-[8px] font-black tracking-widest uppercase ${
+                           booking.status === 'confirmed' ? 'bg-primary text-on-primary border-primary' : 
+                           booking.status === 'completed' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
+                           ['cancelled', 'canceled'].includes(booking.status?.toLowerCase()) ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
+                         }`}>
+                            {booking.status}
+                         </div>
+                      </div>
+                      
+                      <div className="space-y-2 mb-2">
+                        <div className="flex items-center gap-4 text-[9px] md:text-[11px] font-black uppercase tracking-widest italic">
+                           <span className="text-primary truncate">{booking.time}</span>
+                           <span className="text-zinc-400 opacity-50">//</span>
+                           <span className="text-zinc-500">{booking.guests} PERSONNEL</span>
+                        </div>
+                        <div className="text-[7px] md:text-[9px] font-bold opacity-40 uppercase tracking-widest truncate">
+                          Node: {booking.stationType} // {booking.actualOccasion}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center opacity-30 text-center py-10 md:py-20">
+                     <AlertCircle size={30} className="mb-4" />
+                     <p className="font-headline font-black uppercase tracking-widest text-[8px] md:text-xs">RESERVATION CACHE EMPTY</p>
+                  </div>
+                )
               )}
            </div>
-
+  
            <button 
-            onClick={() => navigate('/menu')}
-            className="mt-8 w-full py-4 bg-zinc-950 text-primary border-2 border-primary font-headline font-black uppercase tracking-[0.3em] text-[10px] hover:bg-primary hover:text-white shadow-xl"
+            onClick={() => navigate(activeHistoryTab === 'orders' ? '/menu' : '/reserve')}
+            className="mt-8 w-full py-4 bg-zinc-950 text-table text-primary border-2 border-primary font-headline font-black uppercase tracking-[0.3em] text-[10px] hover:bg-primary hover:text-white shadow-xl italic"
            >
-             NEW EXTRACTION
+             {activeHistoryTab === 'orders' ? 'NEW EXTRACTION' : 'NEW RESERVATION'}
            </button>
         </div>
 
