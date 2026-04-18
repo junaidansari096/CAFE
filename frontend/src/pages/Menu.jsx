@@ -85,7 +85,7 @@ export default function Menu() {
 
               <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
                  <div className={`w-full md:w-1/2 aspect-[16/9] md:aspect-square overflow-hidden border-2 transition-all duration-700 relative ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                    <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-active:grayscale-0 group-active:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
+                    <img className="w-full h-full object-cover grayscale-0 md:grayscale md:brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
                     <div className="absolute top-0 left-0 bg-primary text-on-primary font-headline text-[9px] font-black px-4 py-2 uppercase tracking-widest">
                       Protocol: {item.category}
                     </div>

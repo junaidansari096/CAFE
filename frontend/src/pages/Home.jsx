@@ -100,7 +100,7 @@ export default function Home() {
             {featured.length > 0 ? featured.map((item, idx) => (
               <Link to={`/product/${item._id}`} key={item._id} className="min-w-[220px] md:min-w-full snap-start group cursor-pointer block active:scale-[0.98] transition-all">
                 <div className={`aspect-square md:aspect-[4/5] overflow-hidden border-2 transition-all duration-700 relative mb-6 ${isDark ? 'border-zinc-800' : 'border-zinc-200 shadow-xl group-hover:shadow-primary/20'}`}>
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100 group-active:grayscale-0 group-active:brightness-100 transition-all duration-700" />
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale-0 md:grayscale md:brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
                   <div className="absolute top-0 left-0 bg-primary text-on-primary font-headline text-[9px] font-black px-4 py-2 uppercase tracking-widest">
                     Protocol: {item.category}
                   </div>
