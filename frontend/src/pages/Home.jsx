@@ -98,11 +98,11 @@ export default function Home() {
          
          <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-12 overflow-x-auto md:overflow-hidden pb-8 md:pb-0 scrollbar-hide snap-x snap-mandatory">
             {featured.length > 0 ? featured.map((item, idx) => (
-              <Link to={`/product/${item._id}`} key={item._id} className="min-w-[220px] md:min-w-full snap-start group cursor-pointer block">
+              <Link to={`/product/${item._id}`} key={item._id} className="min-w-[220px] md:min-w-full snap-start group cursor-pointer block active:scale-[0.98] transition-all">
                 <div className={`aspect-square md:aspect-[4/5] overflow-hidden border-2 transition-all duration-700 relative mb-6 ${isDark ? 'border-zinc-800' : 'border-zinc-200 shadow-xl group-hover:shadow-primary/20'}`}>
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" />
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100 group-active:grayscale-0 group-active:brightness-100 transition-all duration-700" />
                   <div className="absolute top-0 left-0 bg-primary text-on-primary font-headline text-[9px] font-black px-4 py-2 uppercase tracking-widest">
-                    {item.category}
+                    Protocol: {item.category}
                   </div>
                 </div>
                 <h3 className="font-headline text-xl md:text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors">{item.name}</h3>

@@ -50,8 +50,8 @@ export default function ProductDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
         <div className={`aspect-square border-4 overflow-hidden relative group transition-all duration-700 ${isDark ? 'border-zinc-800' : 'border-zinc-950'}`}>
-          <img src={product.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" alt={product.name} />
-          <div className="absolute top-8 left-8 bg-primary text-on-primary px-4 py-2 font-headline font-black text-[10px] tracking-widest uppercase">
+          <img src={product.image} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-active:grayscale-0 group-active:brightness-100 transition-all duration-700" alt={product.name} />
+          <div className="absolute top-0 left-0 bg-primary text-on-primary px-4 py-2 font-headline font-black text-[10px] tracking-widest uppercase">
             Protocol: {product.category}
           </div>
         </div>

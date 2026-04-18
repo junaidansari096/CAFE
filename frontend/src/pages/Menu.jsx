@@ -75,7 +75,7 @@ export default function Menu() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-800 border-2 border-zinc-800">
           {filteredProducts.map((item) => (
-            <div key={item._id} className={`p-6 md:p-16 group transition-all duration-700 relative overflow-hidden ${isDark ? 'bg-[#0d0f0f] hover:bg-zinc-900 border-zinc-800' : 'bg-white hover:bg-zinc-100 border-zinc-100'}`}>
+            <div key={item._id} className={`p-6 md:p-16 group transition-all duration-700 relative overflow-hidden active:scale-[0.98] ${isDark ? 'bg-[#0d0f0f] hover:bg-zinc-900 border-zinc-800' : 'bg-white hover:bg-zinc-100 border-zinc-100'}`}>
               
               {item.featured && (
                 <div className={`absolute top-10 right-10 z-20 px-4 py-2 bg-primary text-white font-headline font-black text-[10px] tracking-widest uppercase shadow-lg transform translate-x-1/2 -translate-y-1/2 rotate-45`}>
@@ -85,7 +85,10 @@ export default function Menu() {
 
               <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
                  <div className={`w-full md:w-1/2 aspect-[16/9] md:aspect-square overflow-hidden border-2 transition-all duration-700 relative ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                    <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
+                    <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-active:grayscale-0 group-active:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
+                    <div className="absolute top-0 left-0 bg-primary text-on-primary font-headline text-[9px] font-black px-4 py-2 uppercase tracking-widest">
+                      Protocol: {item.category}
+                    </div>
                     {item.discountPrice && (
                       <div className="absolute bottom-4 right-4 bg-red-600 text-white font-headline font-black text-[10px] p-2 px-3 tracking-widest shadow-2xl">
                         PROMO
@@ -93,7 +96,6 @@ export default function Menu() {
                     )}
                  </div>
                  <div className="w-full md:w-1/2">
-                    <span className="text-primary font-headline text-[10px] font-black tracking-widest uppercase mb-4 block opacity-60">Protocol: {item.category}</span>
                     <div className="flex justify-between items-baseline mb-4 flex-wrap gap-4">
                       <h3 className="text-2xl sm:text-4xl lg:text-5xl font-black font-headline uppercase tracking-tighter leading-none">{item.name}</h3>
                       <div className="flex flex-col items-end">
