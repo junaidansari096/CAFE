@@ -1,6 +1,17 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+const rewardLogSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['signup', 'order', 'reservation', 'bonus', 'redeemed'],
+    required: true,
+  },
+  points: { type: Number, required: true },
+  description: { type: String, default: '' },
+  refId: { type: String, default: '' }, // order/booking ID reference
+}, { timestamps: true });
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -27,7 +38,12 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucky',
-  }
+  },
+  rewardsPoints: {
+    type: Number,
+    default: 0,
+  },
+  rewardsHistory: [rewardLogSchema],
 }, {
   timestamps: true,
 });

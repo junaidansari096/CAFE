@@ -20,10 +20,20 @@ export const createBooking = async (req, res) => {
     };
 
     const booking = await Booking.create(bookingData);
-
-    // If logged in, Add 10 points for every booking
+    
+    // If logged in, Add 10 points for every booking with history log
     if (req.user) {
-      await User.findByIdAndUpdate(req.user._id, { $inc: { rewardsPoints: 10 } });
+      await User.findByIdAndUpdate(req.user._id, { 
+        $inc: { rewardsPoints: 10 },
+        $push: { 
+          rewardsHistory: {
+            type: 'reservation',
+            points: 10,
+            description: `Station Reservation [Node: ${booking.stationType}] verified for ${booking.date}.`,
+            refId: booking._id
+          }
+        }
+      });
     }
 
     res.status(201).json(booking);

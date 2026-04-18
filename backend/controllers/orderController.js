@@ -1,4 +1,5 @@
 import Order from '../models/Order.js';
+import User from '../models/User.js';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -25,6 +26,20 @@ export const addOrderItems = async (req, res) => {
     });
 
     const createdOrder = await order.save();
+    
+    // Award 25 points for every order
+    await User.findByIdAndUpdate(req.user._id, { 
+      $inc: { rewardsPoints: 25 },
+      $push: { 
+        rewardsHistory: {
+          type: 'order',
+          points: 25,
+          description: `Extraction Protocol #${createdOrder._id.toString().slice(-8)} successfully initialized.`,
+          refId: createdOrder._id
+        }
+      }
+    });
+
     res.status(201).json(createdOrder);
   }
 };

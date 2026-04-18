@@ -50,6 +50,15 @@ export const api = {
     return data;
   },
 
+  getRewardsData: async () => {
+    const response = await fetch(`${API_BASE_URL}/auth/rewards`, {
+      headers: getAuthHeaders(),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Failed to fetch rewards data');
+    return data;
+  },
+
   // Bookings
   createBooking: async (bookingData) => {
     const response = await fetch(`${API_BASE_URL}/bookings`, {
