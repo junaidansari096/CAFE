@@ -23,7 +23,7 @@ export default function TopAppBar({ isDark, toggleTheme }) {
   };
 
   return (
-    <header className={`sticky top-0 z-50 w-full px-6 py-4 md:px-20 flex items-center justify-between transition-all duration-700 ease-in-out border-b-2 ${isDark ? 'bg-[#0d0f0f] border-white/5 text-[#fafaf5]' : 'bg-white border-black/5 text-zinc-900 shadow-sm'}`}>
+    <header className={`sticky top-0 z-50 w-full px-4 py-2 md:px-20 md:py-4 flex items-center justify-between transition-all duration-700 ease-in-out border-b-2 ${isDark ? 'bg-[#0d0f0f] border-white/5 text-[#fafaf5]' : 'bg-white border-black/5 text-zinc-900 shadow-sm'}`}>
       <div className="flex items-center gap-2">
         <Link to="/" className="flex items-center gap-2 group">
           <div className={`w-8 h-8 rounded-md flex items-center justify-center transition-all duration-700 ${isDark ? 'bg-primary/10 text-primary border border-primary/30 group-hover:bg-primary group-hover:text-on-primary' : 'bg-primary text-on-primary group-hover:bg-zinc-900 font-bold'}`}>
@@ -85,7 +85,7 @@ export default function TopAppBar({ isDark, toggleTheme }) {
         {(user?.isAdmin || user?.role === 'admin') && (
           <Link 
             to="/admin" 
-            className={`px-4 py-1.5 border-2 border-primary text-primary font-headline text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-zinc-950 transition-all ${isDark ? '' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none'}`}
+            className={`hidden md:flex px-4 py-1.5 border-2 border-primary text-primary font-headline text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-zinc-950 transition-all ${isDark ? '' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none'}`}
           >
             Terminal
           </Link>

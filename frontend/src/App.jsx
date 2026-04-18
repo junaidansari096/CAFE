@@ -15,6 +15,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
@@ -29,6 +30,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Consumer Routes */}
         <Route path="/" element={<Layout isDark={isDark} toggleTheme={toggleTheme} />}>

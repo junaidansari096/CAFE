@@ -2,7 +2,7 @@ import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 
 export const createBooking = async (req, res) => {
-  const { date, time, guests, occasion, guestName, email, phoneNumber } = req.body;
+  const { date, time, guests, occasion, guestName, email, phoneNumber, actualOccasion, specialInstructions } = req.body;
   
   try {
     // If logged in, use user data. If guest, use provided name/email.
@@ -10,7 +10,9 @@ export const createBooking = async (req, res) => {
       date,
       time,
       guests,
-      occasion,
+      stationType: occasion,
+      actualOccasion: actualOccasion || 'None',
+      specialInstructions: specialInstructions || '',
       guestName: guestName || (req.user ? req.user.name : 'Unknown Guest'),
       email: email || (req.user ? req.user.email : 'Unknown@Email.com'),
       phoneNumber: phoneNumber || (req.user ? req.user.phoneNumber : ''),

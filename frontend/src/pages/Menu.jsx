@@ -29,14 +29,14 @@ export default function Menu() {
     : products.filter(p => p.category === activeCategory);
 
   return (
-    <div className={`relative fade-in min-h-screen px-6 md:px-20 py-24 transition-colors duration-700 ${isDark ? 'bg-[#0d0f0f] text-[#fafaf5]' : 'bg-[#fafaf5] text-zinc-900'}`}>
+    <div className={`relative fade-in min-h-screen px-4 md:px-20 py-16 md:py-24 transition-colors duration-700 ${isDark ? 'bg-[#0d0f0f] text-[#fafaf5]' : 'bg-[#fafaf5] text-zinc-900'}`}>
 
       <section className="mb-24">
         <div className="flex items-center gap-4 mb-8">
            <div className="w-12 h-[2px] bg-primary"></div>
            <span className="font-headline text-xs font-black tracking-[0.5em] uppercase text-primary">Protocol Catalog // Ver 5.0</span>
         </div>
-        <h2 className="text-6xl md:text-[8rem] font-black font-headline tracking-tighter mb-8 leading-[0.85] uppercase italic">
+        <h2 className="text-4xl sm:text-6xl md:text-[8rem] font-black font-headline tracking-tighter mb-8 leading-[0.85] uppercase italic">
           THE <span className="text-primary not-italic">COLLECTION</span>
         </h2>
         <p className={`max-w-2xl text-xl font-medium leading-relaxed transition-colors duration-700 ${isDark ? 'text-[#a0a09a]' : 'text-zinc-600'}`}>
@@ -44,14 +44,18 @@ export default function Menu() {
         </p>
       </section>
 
-      {/* Solid Sticky Nav */}
-      <nav className={`sticky top-20 z-40 mb-20 py-6 border-y-2 flex justify-start md:justify-center overflow-x-auto transition-all duration-700 ${isDark ? 'bg-[#0d0f0f] border-zinc-800' : 'bg-[#fafaf5] border-zinc-200 shadow-sm'}`}>
-        <div className="flex items-center gap-12 px-6">
+      {/* Solid Sticky Nav - Refined for Mobile Tapability */}
+      <nav className={`sticky top-14 md:top-20 z-40 mb-8 md:mb-20 py-2 md:py-6 border-y-2 flex justify-start md:justify-center overflow-x-auto scrollbar-hide transition-all duration-700 ${isDark ? 'bg-[#0d0f0f] border-zinc-800' : 'bg-[#fafaf5] border-zinc-200 shadow-sm'}`}>
+        <div className="flex items-center gap-2 md:gap-12 px-4 md:px-6">
           {categories.map((cat) => (
             <button 
               key={cat} 
               onClick={() => setActiveCategory(cat)}
-              className={`font-headline font-black text-xs tracking-[0.3em] uppercase transition-colors duration-700 whitespace-nowrap ${activeCategory === cat ? 'text-primary' : 'text-zinc-500 hover:text-primary'}`}
+              className={`font-headline font-black text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] uppercase transition-all duration-300 whitespace-nowrap px-4 py-2 md:px-0 md:py-0 border-2 md:border-0 ${
+                activeCategory === cat 
+                ? 'text-primary border-primary bg-primary/10 md:bg-transparent' 
+                : `${isDark ? 'text-zinc-500 border-zinc-800' : 'text-zinc-500 border-zinc-200'} hover:border-primary hover:text-primary`
+              }`}
             >
               {cat}
             </button>
@@ -71,7 +75,7 @@ export default function Menu() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-800 border-2 border-zinc-800">
           {filteredProducts.map((item) => (
-            <div key={item._id} className={`p-10 md:p-16 group transition-all duration-700 relative overflow-hidden ${isDark ? 'bg-[#0d0f0f] hover:bg-zinc-900 border-zinc-800' : 'bg-white hover:bg-zinc-100 border-zinc-100'}`}>
+            <div key={item._id} className={`p-6 md:p-16 group transition-all duration-700 relative overflow-hidden ${isDark ? 'bg-[#0d0f0f] hover:bg-zinc-900 border-zinc-800' : 'bg-white hover:bg-zinc-100 border-zinc-100'}`}>
               
               {item.featured && (
                 <div className={`absolute top-10 right-10 z-20 px-4 py-2 bg-primary text-white font-headline font-black text-[10px] tracking-widest uppercase shadow-lg transform translate-x-1/2 -translate-y-1/2 rotate-45`}>
@@ -79,8 +83,8 @@ export default function Menu() {
                 </div>
               )}
 
-              <div className="flex flex-col md:flex-row gap-10 items-center">
-                 <div className={`w-full md:w-1/2 aspect-square overflow-hidden border-2 transition-all duration-700 relative ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
+              <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+                 <div className={`w-full md:w-1/2 aspect-[16/9] md:aspect-square overflow-hidden border-2 transition-all duration-700 relative ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
                     <img className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src={item.image} alt={item.name} />
                     {item.discountPrice && (
                       <div className="absolute bottom-4 right-4 bg-red-600 text-white font-headline font-black text-[10px] p-2 px-3 tracking-widest shadow-2xl">
@@ -91,7 +95,7 @@ export default function Menu() {
                  <div className="w-full md:w-1/2">
                     <span className="text-primary font-headline text-[10px] font-black tracking-widest uppercase mb-4 block opacity-60">Protocol: {item.category}</span>
                     <div className="flex justify-between items-baseline mb-4 flex-wrap gap-4">
-                      <h3 className="text-4xl lg:text-5xl font-black font-headline uppercase tracking-tighter leading-none">{item.name}</h3>
+                      <h3 className="text-2xl sm:text-4xl lg:text-5xl font-black font-headline uppercase tracking-tighter leading-none">{item.name}</h3>
                       <div className="flex flex-col items-end">
                         {item.discountPrice ? (
                           <>
@@ -120,7 +124,7 @@ export default function Menu() {
       )}
 
       {/* Efficiency Report */}
-      <div className="mt-40 border-t-4 border-primary pt-12">
+      <div className="mt-20 md:mt-40 border-t-4 border-primary pt-12">
          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
                <h4 className="font-headline font-black text-xs tracking-[0.4em] uppercase text-primary mb-6">Efficiency Report</h4>

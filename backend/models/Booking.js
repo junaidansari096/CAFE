@@ -32,10 +32,18 @@ const bookingSchema = new mongoose.Schema({
     min: 1,
     max: 10,
   },
-  occasion: {
+  stationType: {
     type: String,
     enum: ['SOLO', 'DUO', 'COLLECTIVE', 'PRIVATE'],
     default: 'SOLO',
+  },
+  actualOccasion: {
+    type: String,
+    default: 'None',
+  },
+  specialInstructions: {
+    type: String,
+    default: '',
   },
   status: {
     type: String,

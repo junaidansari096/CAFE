@@ -206,28 +206,29 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-[#fafaf5] text-zinc-900 transition-colors duration-700 py-20 px-4 sm:px-10 lg:px-20 fade-in">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-[2px] bg-primary"></div>
-              <span className="font-headline text-[10px] font-black tracking-[0.5em] uppercase text-primary">System 14 // Administrative Node</span>
+        {/* Command Header: Stacked on Mobile, Row on Desktop */}
+        <div className="flex flex-col lg:flex-row items-center justify-between mb-8 md:mb-16 gap-10">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-[2px] bg-primary"></div>
+              <span className="font-headline text-[8px] md:text-[10px] font-black tracking-[0.4em] uppercase text-primary">System 14 // Admin Node</span>
             </div>
-            <div className="flex items-center gap-6">
-               <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="material-symbols-outlined text-white text-3xl">{ASSETS.BRAND_ICON}</span>
+            <div className="flex items-center gap-4 md:gap-6">
+               <div className="w-12 h-12 md:w-16 md:h-16 bg-primary rounded-xl flex items-center justify-center shadow-lg shrink-0">
+                  <span className="material-symbols-outlined text-white text-2xl md:text-3xl">{ASSETS.BRAND_ICON}</span>
                </div>
-               <h1 className="text-6xl md:text-8xl font-headline font-black text-zinc-950 flex items-center gap-4 uppercase tracking-tighter leading-none italic">
+               <h1 className="text-4xl md:text-8xl font-headline font-black text-zinc-950 flex items-center gap-2 md:gap-4 uppercase tracking-tighter leading-none italic">
                  CONTROL <span className="text-primary not-italic">CENTER</span>
                </h1>
             </div>
           </div>
           
-          <div className="flex border-4 border-zinc-950 p-1 bg-white">
+          <div className="flex w-full md:w-auto border-2 md:border-4 border-zinc-950 p-1 bg-white overflow-x-auto no-scrollbar">
              {['orders', 'products', 'bookings', 'reviews'].map(tab => (
                <button 
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-8 py-4 font-headline font-black text-[10px] uppercase tracking-[0.2em] transition-all ${activeTab === tab ? 'bg-zinc-950 text-[#fafaf5]' : 'bg-transparent text-zinc-400 hover:text-zinc-900'}`}
+                  className={`flex-1 md:flex-none px-3 md:px-8 py-3 md:py-4 font-headline font-black text-[7px] md:text-[10px] uppercase tracking-widest md:tracking-[0.2em] transition-all whitespace-nowrap ${activeTab === tab ? 'bg-zinc-950 text-[#fafaf5]' : 'bg-transparent text-zinc-400'}`}
                >
                  {tab}
                </button>
@@ -235,12 +236,12 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          <StatCard icon={<Package />} label="Protocol Specimens" value={stats.products} color="primary" />
-          <StatCard icon={<Activity />} label="Active Queue" value={stats.orders} color="primary" />
-          <StatCard icon={<Calendar />} label="Sync Shifts" value={stats.bookings} />
-          <StatCard icon={<Star />} label="Log Reports" value={stats.reviews} />
+        {/* Quick Stats: Full Vertical Stack on Mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-12 md:mb-16">
+          <StatCard icon={<Package />} label="Specimens" value={stats.products} color="primary" />
+          <StatCard icon={<Activity />} label="Queue" value={stats.orders} color="primary" />
+          <StatCard icon={<Calendar />} label="Shifts" value={stats.bookings} />
+          <StatCard icon={<Star />} label="Logs" value={stats.reviews} />
         </div>
 
         {activeTab === 'orders' ? (
@@ -296,7 +297,7 @@ export default function Admin() {
 
             <div className="bg-white border-4 border-zinc-950 overflow-hidden shadow-[20px_20px_0px_0px_rgba(0,0,0,0.05)]">
               <div className="overflow-x-auto">
-                <table className="w-full text-left font-headline font-bold text-xs uppercase italic">
+                <table className="min-w-[800px] w-full text-left font-headline font-bold text-xs uppercase italic">
                   <thead className="bg-zinc-50 text-zinc-500 text-[10px] tracking-widest border-b-2 border-zinc-100">
                     <tr>
                       <th className="px-8 py-6">Specimen</th>
@@ -409,13 +410,13 @@ function ToggleGroup({ label, active, onToggle }) {
 
 function StatCard({ icon, label, value, color }) {
   return (
-    <div className={`bg-white p-10 border-4 border-zinc-950 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.05)] flex items-center gap-8 ${color === 'primary' ? 'border-primary shadow-primary/10' : ''}`}>
-      <div className={`w-16 h-16 flex items-center justify-center border-2 ${color === 'primary' ? 'bg-primary text-on-primary border-primary' : 'bg-transparent text-primary border-zinc-100'}`}>
-        {React.cloneElement(icon, { size: 28, strokeWidth: 3 })}
+    <div className={`bg-white p-6 md:p-10 border-2 md:border-4 border-zinc-950 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.05)] md:shadow-[10px_10px_0px_0px_rgba(0,0,0,0.05)] flex items-center gap-4 md:gap-8 ${color === 'primary' ? 'border-primary shadow-primary/10' : ''}`}>
+      <div className={`w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-2 shrink-0 ${color === 'primary' ? 'bg-primary text-on-primary border-primary' : 'bg-transparent text-primary border-zinc-100'}`}>
+        {React.cloneElement(icon, { size: 24, strokeWidth: 3 })}
       </div>
-      <div>
-        <p className="text-zinc-400 text-[10px] font-black uppercase tracking-[0.5em] mb-2">{label}</p>
-        <h3 className="text-5xl font-headline font-black tracking-tighter leading-none italic">{value}</h3>
+      <div className="min-w-0 flex-1">
+        <p className="text-zinc-400 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-1 md:mb-2 truncate">{label}</p>
+        <h3 className="text-2xl md:text-5xl font-headline font-black tracking-tighter leading-none italic">{value}</h3>
       </div>
     </div>
   );
@@ -436,7 +437,7 @@ function OrdersTable({ orders, onUpdate, onDelete, onPurge }) {
         </button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full text-left font-headline font-bold text-xs uppercase italic">
+        <table className="min-w-[800px] w-full text-left font-headline font-bold text-xs uppercase italic">
           <thead className="bg-zinc-50 text-zinc-500 text-[10px] tracking-widest border-b-2 border-zinc-100">
             <tr>
               <th className="px-8 py-6">ID</th>
@@ -497,11 +498,12 @@ function BookingsTable({ bookings, onUpdate, onDelete, onReschedule }) {
     <div className="bg-white border-4 border-zinc-950 shadow-[20px_20px_0px_0px_rgba(184,207,136,0.2)] overflow-hidden">
         <div className="bg-zinc-950 p-8"><h2 className="text-white font-headline font-black text-2xl uppercase italic tracking-tighter">Shift Registry</h2></div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-headline font-black uppercase text-xs italic">
+          <table className="min-w-[900px] w-full text-left font-headline font-black uppercase text-xs italic">
             <thead className="bg-zinc-50 text-zinc-500 tracking-widest text-[10px] border-b-2 border-zinc-100">
               <tr>
                 <th className="px-8 py-6">Personnel</th>
-                <th className="px-8 py-6">Node</th>
+                <th className="px-8 py-6">Node / Event</th>
+                <th className="px-8 py-6">Directives</th>
                 <th className="px-8 py-6">State</th>
                 <th className="px-8 py-6">Authorization</th>
               </tr>
@@ -509,10 +511,21 @@ function BookingsTable({ bookings, onUpdate, onDelete, onReschedule }) {
             <tbody className="divide-y divide-zinc-100">
               {bookings.map(b => (
                 <tr key={b._id}>
-                  <td className="px-8 py-8 font-black text-zinc-950 tracking-tighter">{b.guestName || b.user?.name || 'CITIZEN'}</td>
-                  <td className="px-8 py-8 text-primary font-black uppercase italic tracking-tighter">{b.date || '---'} // {b.time || '---'}</td>
+                  <td className="px-8 py-8 font-black text-zinc-950 tracking-tighter">
+                    {b.guestName || b.user?.name || 'CITIZEN'}
+                    <div className="text-[9px] text-zinc-400 font-bold opacity-60">ID: ...{b._id?.slice(-6)}</div>
+                  </td>
                   <td className="px-8 py-8">
-                    <span className={`px-4 py-2 border-2 ${b.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-zinc-50 border-zinc-200'}`}>{b.status}</span>
+                    <div className="text-primary font-black uppercase italic tracking-tighter">{b.date || '---'} // {b.time || '---'}</div>
+                    <div className="text-[10px] font-black text-zinc-950 mt-1">PROTOCAL: {b.actualOccasion || 'NONE'}</div>
+                  </td>
+                  <td className="px-8 py-8">
+                    <div className="max-w-[150px] truncate text-[10px] font-bold opacity-70 italic" title={b.specialInstructions}>
+                      {b.specialInstructions || '(NO DIRECTIVES)'}
+                    </div>
+                  </td>
+                  <td className="px-8 py-8">
+                    <span className={`px-4 py-2 border-2 text-[10px] uppercase font-black tracking-widest ${b.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-amber-50 text-amber-600 border-amber-200'}`}>{b.status}</span>
                   </td>
                   <td className="px-8 py-8">
                     <div className="flex gap-4">

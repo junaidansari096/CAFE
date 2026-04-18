@@ -101,7 +101,7 @@ export default function TestimonialSlider({ isDark }) {
         isDark 
             ? 'bg-[#121414] border-zinc-900 shadow-[10px_10px_0px_0px_rgba(30,30,30,0.5)]' 
             : 'bg-white border-zinc-950 shadow-[10px_10px_0px_0px_rgba(184,207,136,0.1)]'
-        } ${layout === 'single' ? 'p-12 md:p-24 pt-32' : 'p-10 pt-20 w-[450px] flex-shrink-0'}`}>
+        } ${layout === 'single' ? 'p-6 md:p-24 pt-20 md:pt-32' : 'p-10 pt-20 w-[450px] flex-shrink-0'}`}>
         
         <div className="absolute top-8 right-8 z-20">
             <RatingStars rating={item.rating} isDark={isDark} />
@@ -113,7 +113,7 @@ export default function TestimonialSlider({ isDark }) {
 
         <div className={layout === 'single' ? `transition-all duration-500 transform ${isTransitioning ? 'opacity-0 translate-x-10' : 'opacity-100 translate-x-0'}` : ''}>
             <h3 className={`font-headline font-black uppercase tracking-tight italic leading-tight mb-12 ${
-            layout === 'single' ? 'text-3xl md:text-5xl' : 'text-xl'
+            layout === 'single' ? 'text-xl md:text-5xl' : 'text-xl'
             } ${isDark ? 'text-white' : 'text-zinc-950'}`}>
             {item.quote}
             </h3>
@@ -146,7 +146,7 @@ export default function TestimonialSlider({ isDark }) {
   };
 
   return (
-    <section className={`py-40 px-6 md:px-20 transition-colors duration-700 overflow-hidden ${isDark ? 'bg-[#0d0f0f]' : 'bg-[#fafaf5]'}`}>
+    <section className={`py-16 md:py-40 px-6 md:px-20 transition-colors duration-700 overflow-hidden ${isDark ? 'bg-[#0d0f0f]' : 'bg-[#fafaf5]'}`}>
       <div className="max-w-7xl mx-auto mb-16">
         <div className="flex items-center gap-4">
            <div className="w-12 h-[2px] bg-primary"></div>
@@ -162,10 +162,10 @@ export default function TestimonialSlider({ isDark }) {
           <div className="md:hidden max-w-7xl mx-auto relative">
             <TestimonialCard item={reviews[currentIndex]} />
             <div className="flex justify-start gap-px mt-10 bg-zinc-800 border-2 border-zinc-800 max-w-fit">
-               <button onClick={prevSlide} className={`w-16 h-16 flex items-center justify-center transition-all ${isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950'} active:scale-95`}>
+               <button onClick={prevSlide} className={`w-12 h-12 flex items-center justify-center transition-all ${isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950'} active:scale-95`}>
                   <span className="material-symbols-outlined">chevron_left</span>
                </button>
-               <button onClick={nextSlide} className={`w-16 h-16 flex items-center justify-center transition-all ${isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950'} active:scale-95`}>
+               <button onClick={nextSlide} className={`w-12 h-12 flex items-center justify-center transition-all ${isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950'} active:scale-95`}>
                   <span className="material-symbols-outlined">chevron_right</span>
                </button>
             </div>
