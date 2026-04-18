@@ -17,9 +17,6 @@ export default function TopAppBar({ isDark, toggleTheme }) {
     { label: 'Rewards', path: '/rewards' }
   ];
 
-  if (user) {
-    navItems.push({ label: 'History', path: '/history' });
-  }
 
   const handleLogout = () => {
     logout();

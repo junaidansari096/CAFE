@@ -279,7 +279,7 @@ export default function Profile() {
               {[
                 { icon: <Shield size={18}/>, label: 'Sec', action: null },
                 { icon: <Bell size={18}/>, label: 'Comm', action: null },
-                { icon: <Activity size={18}/>, label: 'Stab', action: null },
+                { icon: <Clock size={18}/>, label: 'Archive', action: () => navigate('/history') },
                 { icon: <LogOut size={18}/>, label: 'Exit', action: handleLogout }
               ].map((tool) => (
                 <button 
