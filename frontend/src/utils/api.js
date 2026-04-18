@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -209,6 +209,15 @@ export const api = {
     return data;
   },
 
+  getOrderById: async (id) => {
+    const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+      headers: getAuthHeaders(),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Order data extraction failed');
+    return data;
+  },
+
   adminGetAllOrders: async () => {
     const response = await fetch(`${API_BASE_URL}/orders`, {
       headers: getAuthHeaders(),
@@ -265,7 +274,10 @@ export const api = {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
-    const data = await response.json();
+    let data = {};
+    try {
+      if (response.status !== 204) data = await response.json();
+    } catch (e) { console.warn('Purge payload missing'); }
     return data;
   },
 
@@ -274,7 +286,10 @@ export const api = {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
-    const data = await response.json();
+    let data = {};
+    try {
+      if (response.status !== 204) data = await response.json();
+    } catch (e) { /* ignore empty body */ }
     if (!response.ok) throw new Error(data.message || 'Order purge failed');
     return data;
   },
@@ -284,7 +299,10 @@ export const api = {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
-    const data = await response.json();
+    let data = {};
+    try {
+      if (response.status !== 204) data = await response.json();
+    } catch (e) { /* ignore */ }
     if (!response.ok) throw new Error(data.message || 'Booking purge failed');
     return data;
   },

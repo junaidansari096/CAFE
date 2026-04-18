@@ -9,8 +9,10 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Admin from './pages/Admin';
+import AdminOrderDetail from './pages/AdminOrderDetail';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
+import History from './pages/History';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 
@@ -41,10 +43,12 @@ export default function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="rewards" element={<Rewards />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="history" element={<History />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="control" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
           <Route path="admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+          <Route path="admin/order/:id" element={<ProtectedRoute><AdminOrderDetail /></ProtectedRoute>} />
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />
         </Route>

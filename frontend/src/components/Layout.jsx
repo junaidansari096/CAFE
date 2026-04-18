@@ -35,6 +35,7 @@ export default function Layout({ isDark, toggleTheme }) {
               <li><Link to="/menu" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>The Menu</Link></li>
               <li><Link to="/reserve" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Lab Reservations</Link></li>
               <li><Link to="/rewards" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Loyalty Nexus</Link></li>
+              <li><Link to="/history" className={`text-xs font-bold uppercase hover:text-primary transition-colors ${isDark ? 'text-[#a0a09a]' : 'text-zinc-500'}`}>Tactical Archive</Link></li>
             </ul>
           </div>
 

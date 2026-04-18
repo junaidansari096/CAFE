@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
 import { Users, Star, Calendar, Check, X, Shield, BarChart3, Package, Plus, Zap, Percent, Info, Activity, ShoppingBag, Image as ImageIcon, Settings, Trash2, Edit2 } from 'lucide-react';
 import { ASSETS } from '../constants/assets';
@@ -63,16 +64,14 @@ export default function Admin() {
   const handleUpdateBooking = async (id, status) => {
     try {
       await api.adminUpdateBookingStatus(id, status);
-      setBookings(bookings.map(b => b._id === id ? { ...b, status } : b));
-      fetchAdminData();
+      setBookings(prev => prev.map(b => b._id === id ? { ...b, status } : b));
     } catch (err) { alert('Failed to update booking'); }
   };
 
   const handleUpdateOrder = async (id, status) => {
     try {
       await api.adminUpdateOrderStatus(id, status);
-      setOrders(orders.map(o => o._id === id ? { ...o, status } : o));
-      fetchAdminData();
+      setOrders(prev => prev.map(o => o._id === id ? { ...o, status } : o));
     } catch (err) { alert('Failed to update order'); }
   };
 
@@ -80,9 +79,9 @@ export default function Admin() {
     if (!window.confirm('PERMANENTLY PURGE ORDER FROM ARCHIVES?')) return;
     try {
       await api.adminDeleteOrder(id);
-      setOrders(orders.filter(o => o._id !== id));
+      setOrders(prev => prev.filter(o => o._id !== id));
+      setStats(prev => ({ ...prev, orders: prev.orders - 1 }));
       alert('ORDER PURGED');
-      fetchAdminData();
     } catch (err) { alert('Purge Failure: ' + err.message); }
   };
 
@@ -105,8 +104,10 @@ export default function Admin() {
     try {
       setLoading(true);
       await Promise.all(expiredOrders.map(o => api.adminDeleteOrder(o._id)));
+      const purgedIds = expiredOrders.map(o => o._id);
+      setOrders(prev => prev.filter(o => !purgedIds.includes(o._id)));
+      setStats(prev => ({ ...prev, orders: prev.orders - expiredOrders.filter(o => o.status === 'Pending').length }));
       alert(`CLEANUP COMPLETE: ${expiredOrders.length} RECORDS WIPED`);
-      fetchAdminData();
     } catch (err) { alert('Cleanup Interrupted'); }
     finally { setLoading(false); }
   };
@@ -155,13 +156,32 @@ export default function Admin() {
     try {
       await api.adminDeleteProduct(id);
       setProducts(prev => prev.filter(p => p._id !== id));
-      // Update stats locally
-      setStats(prev => ({ ...prev, products: prev.products - 1 }));
+      setStats(prev => ({ ...prev, products: Math.max(0, prev.products - 1) }));
       alert('PURGE SUCCESSFUL');
     } catch (err) { 
       console.error('Delete product failed:', err);
       alert('FAILURE: ' + err.message); 
     }
+  };
+
+  const handleDeleteBooking = async (id) => {
+    if (!window.confirm('INCINERATE BOOKING RECORD?')) return;
+    try {
+      await api.adminDeleteBooking(id);
+      setBookings(prev => prev.filter(b => b._id !== id));
+      setStats(prev => ({ ...prev, bookings: Math.max(0, prev.bookings - 1) }));
+      alert('BOOKING PURGED');
+    } catch (err) { alert('Purge Failure: ' + err.message); }
+  };
+
+  const handleDeleteReview = async (id) => {
+    if (!window.confirm('DELETE LOG ENTRY PERMANENTLY?')) return;
+    try {
+      await api.adminDeleteReview(id);
+      setReviews(prev => prev.filter(r => r._id !== id));
+      setStats(prev => ({ ...prev, reviews: Math.max(0, prev.reviews - 1) }));
+      alert('LOG ENTRY PURGED');
+    } catch (err) { alert('Purge Failure: ' + err.message); }
   };
 
   const handleSeedData = async () => {
@@ -356,19 +376,20 @@ export default function Admin() {
            <BookingsTable 
             bookings={bookings} 
             onUpdate={handleUpdateBooking} 
-            onDelete={async (id) => {
-              if(window.confirm('PURGE BOOKING RECORD?')) {
-                try {
-                  await api.adminDeleteBooking(id);
-                  fetchAdminData();
-                  alert('RECORD INCINERATED');
-                } catch (err) { alert('Purge Failure: ' + err.message); }
-              }
-            }}
+            onDelete={handleDeleteBooking}
             onReschedule={(id, d, t) => api.adminUpdateBooking(id, { date: d, time: t }).then(fetchAdminData)} 
            />
         ) : (
-           <ReviewsTable reviews={reviews} onApprove={id => api.adminApproveReview(id).then(fetchAdminData)} onDelete={id => api.adminDeleteReview(id).then(fetchAdminData)} />
+           <ReviewsTable 
+             reviews={reviews} 
+             onApprove={async (id) => {
+               try {
+                 await api.adminApproveReview(id);
+                 setReviews(prev => prev.map(r => r._id === id ? { ...r, status: 'approved' } : r));
+               } catch (err) { alert('Approval failure'); }
+             }} 
+             onDelete={handleDeleteReview} 
+           />
         )}
       </div>
     </div>
@@ -450,8 +471,16 @@ function OrdersTable({ orders, onUpdate, onDelete, onPurge }) {
           <tbody className="divide-y divide-zinc-100">
             {orders.map(o => (
               <tr key={o._id} className="hover:bg-zinc-50/50 transition-colors">
-                <td className="px-8 py-8 text-zinc-400">#{o._id?.slice(-6) || 'N/A'}</td>
-                <td className="px-8 py-8 text-zinc-950">{o.shippingAddress?.guestName || o.user?.name || 'CITIZEN'}</td>
+                <td className="px-8 py-8 font-black text-primary">
+                  <Link to={`/admin/order/${o._id}`} className="hover:underline hover:text-zinc-950 transition-colors">
+                    #{o._id?.slice(-6).toUpperCase() || 'N/A'}
+                  </Link>
+                </td>
+                <td className="px-8 py-8 text-zinc-950">
+                  <Link to={`/admin/order/${o._id}`} className="block hover:text-primary transition-colors">
+                    {o.shippingAddress?.guestName || o.user?.name || 'CITIZEN'}
+                  </Link>
+                </td>
                 <td className="px-8 py-8 text-primary">${(o.totalPrice || 0).toFixed(2)}</td>
                 <td className="px-8 py-8">
                     <span className={`px-4 py-2 border-2 text-[9px] font-black tracking-widest ${

@@ -156,6 +156,12 @@ export default function Profile() {
                   {activeHistoryTab === 'orders' ? 'ORDER LOGS' : 'SHIFT DATA'}
                 </h4>
               </div>
+              <button 
+                onClick={() => navigate('/history')}
+                className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-primary border-b-2 border-primary/20 hover:border-primary transition-all pb-0.5 whitespace-nowrap"
+              >
+                FULL HISTORY
+              </button>
               <div className="flex gap-2">
                  <button onClick={() => setActiveHistoryTab('orders')} className={`w-2 h-2 rounded-full transition-all ${activeHistoryTab === 'orders' ? 'bg-primary w-6' : 'bg-zinc-800'}`}></button>
                  <button onClick={() => setActiveHistoryTab('bookings')} className={`w-2 h-2 rounded-full transition-all ${activeHistoryTab === 'bookings' ? 'bg-primary w-6' : 'bg-zinc-800'}`}></button>
