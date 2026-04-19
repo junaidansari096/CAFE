@@ -1,6 +1,7 @@
 # ☕ FUTURE BREW // Molecular Extraction & Shift Reservation
 
 [![Status](https://img.shields.io/badge/STATUS-OPERATIONAL-b8cf88?style=for-the-badge&logoColor=white)](https://github.com/junaidansari096/CAFE)
+[![Live Preview](https://img.shields.io/badge/LIVE_PREVIEW-VERCEL-67b2e8?style=for-the-badge&logoColor=white)](https://cafe-phi-sage.vercel.app/)
 [![Environment](https://img.shields.io/badge/ENVIRONMENT-FULLSTACK-white?style=for-the-badge&logoColor=black)](https://github.com/junaidansari096/CAFE)
 [![Aesthetic](https://img.shields.io/badge/AESTHETIC-INDUSTRIAL_MINIMALISM-0d0f0f?style=for-the-badge&logoColor=white)](https://github.com/junaidansari096/CAFE)
 
